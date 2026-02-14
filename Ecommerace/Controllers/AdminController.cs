@@ -138,13 +138,13 @@ namespace Ecommerace.Controllers
         {
             _context.tbl_Catagory.Add(cat);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("fetchCategory");
         }
 
         public IActionResult updateCategory(int id)
         {
             var category = _context.tbl_Catagory.Find(id);
-            return View(category); // Note: Image shows "return View(c);", likely a typo for "category"
+            return View(category); 
         }
 
         [HttpPost]
@@ -152,20 +152,92 @@ namespace Ecommerace.Controllers
         {
             _context.tbl_Catagory.Update(cat);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("fetchCategory");
         }
 
 
-        public IActionResult deletePermissioncatagory(int id)
+        public IActionResult deletePermissionCategory(int id)
         {
             return View(_context.tbl_Catagory.FirstOrDefault(c => c.category_id == id));
         }
-        public IActionResult deletecatagory(int id)
+        public IActionResult deletecategory(int id)
         {
-            var catagory = _context.tbl_Catagory.Find(id);
-            _context.tbl_Catagory.Remove(catagory);
+            var category = _context.tbl_Catagory.Find(id);
+            _context.tbl_Catagory.Remove(category);
             _context.SaveChanges();
             return RedirectToAction("fetchCategory");
         }
+
+        public IActionResult fetchProduct()
+        {
+            return View(_context.tbl_Product.ToList());
+        }
+
+        public IActionResult addProduct()
+        {
+            List<Catagory> catagories = _context.tbl_Catagory.ToList();
+            ViewData["category"] = catagories;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addProduct(Product prod ,IFormFile product_image)
+        {
+            string imageName = Path.GetFileName(product_image.FileName);
+            string imagePath = Path.Combine(_env.WebRootPath, "product_images", imageName);
+            FileStream fs = new FileStream(imagePath, FileMode.Create);
+            product_image.CopyTo(fs);
+            prod.product_image = imageName;
+            _context.tbl_Product.Add(prod);
+            _context.SaveChanges();
+            return RedirectToAction("fetchproduct");
+        }
+
+        public IActionResult productDetails(int id)
+        {
+
+            return View(_context.tbl_Product.Include(p => p.catagory).FirstOrDefault(p => p.product_id == id));
+        }
+
+        public IActionResult deletePermissionProduct(int id)
+        {
+            return View(_context.tbl_Product.FirstOrDefault(c => c.product_id == id));
+        }
+        public IActionResult deleteproduct(int id)
+        {
+            var product = _context.tbl_Product.Find(id);
+            _context.tbl_Product.Remove(product);
+            _context.SaveChanges();
+            return RedirectToAction("fetchproduct");
+        }
+        public IActionResult updateproduct(int id)
+        {
+            List<Catagory> catagories = _context.tbl_Catagory.ToList();
+            ViewData["category"] = catagories;
+            var product = _context.tbl_Product.Find(id);
+            ViewBag.selectedCategoryId = product.cat_id; 
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult updateproduct(Product prod)
+        {
+            _context.tbl_Product.Update(prod);
+            _context.SaveChanges();
+            return RedirectToAction("fetchproduct");
+        }
+
+        [HttpPost]
+        public IActionResult changeProductImage(IFormFile product_image, Product product)
+        {
+            string ImagePath = Path.Combine(_env.WebRootPath, "product_images", product_image.FileName);
+            FileStream fs = new FileStream(ImagePath, FileMode.Create);
+            product_image.CopyTo(fs);
+            product.product_image = product_image.FileName;
+            _context.tbl_Product.Update(product);
+            _context.SaveChanges();
+            return RedirectToAction("fetchproduct");
+        }
+
     }
 }
