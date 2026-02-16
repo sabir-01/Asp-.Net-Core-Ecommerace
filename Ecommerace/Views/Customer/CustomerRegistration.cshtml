@@ -1,0 +1,143 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store Forms</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            /* Use your clothing rack image here */
+            background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)), url('your-background-image.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .form-card {
+            background: white;
+            width: 450px;
+            padding: 40px 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+            color: #333;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+            .input-group label {
+                display: block;
+                font-size: 0.8rem;
+                color: #999;
+                margin-bottom: 8px;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #f0f0f0;
+                background-color: #fafafa; /* Light grey fill from image */
+                outline: none;
+                transition: border 0.3s;
+            }
+
+                /* Gold border effect seen in registration image focus */
+                .input-group input:focus {
+                    border: 1px solid #C59D5F;
+                }
+
+        .btn-outline {
+            display: block;
+            background: transparent;
+            border: 1px solid #C59D5F;
+            color: #C59D5F;
+            padding: 10px 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+
+            .btn-outline:hover {
+                background: #C59D5F;
+                color: white;
+            }
+
+        .form-footer {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+            .form-footer p {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #C59D5F;
+            }
+
+            .form-footer a {
+                text-decoration: none;
+                color: #C59D5F;
+            }
+    </style>
+</head>
+<body>
+
+ 
+
+    <div class="form-wrapper">
+        <div class="form-card">
+            <h2>REGISTRATION FORM</h2>
+            <form method="post"> 
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" name="customer_name">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="customer_email">
+                </div>
+                <div class="input-group">
+                    <label>Password *</label>
+                    <input type="password" required name="customer_password">
+                </div>
+                <button type="submit" class="btn-outline">LOG IN &rarr;</button>
+            </form>
+            <div class="form-footer">
+                <p>Already an Account? <a href="@Url.Action("CustomerLogin","customer")">Sign In</a></p>
+ 
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
