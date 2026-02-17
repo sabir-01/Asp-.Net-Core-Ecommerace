@@ -1,0 +1,75 @@
+﻿@model List<Product>
+
+<style>
+    .block-product {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 30px;
+        transition: 0.3s;
+    }
+
+        .block-product:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+    .product-thumb img {
+        width: 100%;
+        height: 300px;
+        object-fit: contain;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-add-cart {
+        display: block;
+        width: 100%;
+        border-radius: 25px;
+        margin-bottom: 10px;
+    }
+
+    .product-body {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .product-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        color: #28a745;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="row">
+    @foreach (var prod in Model)
+    {
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="block-product">
+
+                <div class="product-thumb text-center">
+                    <a href="@Url.Action("ProductDetail","Customer",new{id=prod.product_id})">
+                        <img src='@("~/product_images/"+prod.product_image)' asp-append-version="true">
+                    </a>
+                </div>
+
+                <form method="post" asp-action="AddToCart">
+                    <input type="hidden" name="prod_id" value="@prod.product_id" />
+                    <button type="submit" class="btn btn-info btn-add-cart">
+                        Add To Cart
+                    </button>
+                </form>
+
+                <div class="product-body">
+                    <h2 class="product-name">@prod.product_name</h2>
+                    <span class="product-price">@prod.product_price</span>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

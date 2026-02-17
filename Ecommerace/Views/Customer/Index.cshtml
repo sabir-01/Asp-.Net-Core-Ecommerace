@@ -102,7 +102,7 @@
 
                 <!-- Slide 1: Summer Sale -->
                 <div class="swiper-slide"
-                     style="background-image: url('@Url.Content("~/Websites/images/resources/slide-1.webp")');">
+                     style="background-image: url('@Url.Content("~/Websites/images/resources/slide-2.webp")');">
                     <div class="swiper-text-wrap">
                         <div class="container swiper-tl">
                             <div class="content">
@@ -129,7 +129,7 @@
                 <!-- End Slide 1 -->
                 <!-- Slide 2: Coats & Jackets Sale -->
                 <div class="swiper-slide"
-                     style="background-image: url('@Url.Content("~/Websites/images/resources/slide-2.webp")');">
+                     style="background-image: url('@Url.Content("~/Websites/images/resources/em2.jpg")');">
                     <div class="swiper-text-wrap">
                         <div class="container swiper-tl">
                             <div class="content v2">
@@ -411,140 +411,25 @@
                 <!-- Tab Navigation -->
                 <ul class="nav nav-tabs mb-2 d-flex justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                type="button" role="tab" aria-controls="home" aria-selected="true">
-                            Featured
+                        <button class="nav-link active"
+                                type="button" role="tab"
+                                aria-selected="true">
+                            Our Products
                         </button>
+
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                type="button" role="tab" aria-controls="profile" aria-selected="false">
-                            On Sale
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">
-                            Top Rated
-                        </button>
-                    </li>
+                    
                 </ul>
-                <!-- End Tab Navigation -->
+                <div class="heading-right">
+                    <a href="@Url.Action("fetchAllProducts","Customer")" class="title-link">
+                        View more products <i class="icon-long-arrow-right"></i>
+                    </a>
+                </div>
                 <!-- Tab Content -->
                 <div class="tab-content" id="myTabContent">
-
-                    <!-- Tab Pane: Featured Products -->
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-
-                            <!-- Featured Product 1: Denim Jacket -->
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="block-product">
-                                    <div class="product-thumb position-relative">
-                                        <a href="#"><img src='@Url.Content("~/Websites/images/resources/prd-1.jpg")'></a>
-                                        <a href="#" class="ad-cart position-absolute text-center"><span>Add to Cart</span></a>
-                                        <div class="product-btns position-absolute">
-                                            <a class="wishlist-btn" href="wishlist.html"><i class="fi fi-rr-heart"></i></a>
-                                            <a class="cart-btn" href="cart.html"><i class="fi fi-rr-shopping-bag"></i></a>
-                                            <a class="expand-btn" href='@Url.Content("~/Websites/images/resources/prd-1.jpg")'>
-                                                <i class="fi fi-rr-picture"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-body text-center">
-                                        <a href="#" class="brand-name">Molla</a>
-                                        <h2 class="product-name"><a href="#">Denim jacket</a></h2>
-                                        <span class="product-price">$19.99</span>
-                                        <div class="prd-options">
-                                            <ul class="list-unstyled d-flex gap-2 align-items-center justify-content-center">
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-1.jpg")'></a></li>
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-2.jpg")'></a></li>
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-3.jpg")'></a></li>
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-4.jpg")'></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Featured Product 1 -->
-                            <!-- Featured Product 2: Sandals -->
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="block-product">
-                                    <div class="product-thumb position-relative">
-                                        <a href="#"><img src='@Url.Content("~/Websites/images/resources/prd-2.jpg")'></a>
-                                        <a href="#" class="ad-cart position-absolute text-center"><span>Add to Cart</span></a>
-                                        <div class="product-btns position-absolute">
-                                            <a class="wishlist-btn" href="wishlist.html"><i class="fi fi-rr-heart"></i></a>
-                                            <a class="cart-btn" href="cart.html"><i class="fi fi-rr-shopping-bag"></i></a>
-                                            <a class="expand-btn" href='@Url.Content("~/Websites/images/resources/prd-2.jpg")'>
-                                                <i class="fi fi-rr-picture"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-body text-center">
-                                        <a href="#" class="brand-name">Molla</a>
-                                        <h2 class="product-name"><a href="#">Sandals</a></h2>
-                                        <span class="product-price">$24.99</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Featured Product 2 -->
-                            <!-- Featured Product 3: Printed Sweatshirt (On Sale) -->
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="block-product">
-                                    <div class="product-thumb position-relative">
-                                        <a href="#"><img src='@Url.Content("~/Websites/images/resources/prd-3.jpg")'></a>
-                                        <span class="position-absolute sv">Save 38%</span>
-                                        <a href="#" class="ad-cart position-absolute text-center"><span>Add to Cart</span></a>
-                                        <div class="product-btns position-absolute">
-                                            <a class="wishlist-btn" href="wishlist.html"><i class="fi fi-rr-heart"></i></a>
-                                            <a class="cart-btn" href="cart.html"><i class="fi fi-rr-shopping-bag"></i></a>
-                                            <a class="expand-btn" href='@Url.Content("~/Websites/images/resources/prd-3.jpg")'>
-                                                <i class="fi fi-rr-picture"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-body v2 text-center">
-                                        <a href="#" class="brand-name">Molla</a>
-                                        <h2 class="product-name"><a href="#">Printed sweatshirt</a></h2>
-                                        <span class="product-price">$7.99 <del>$12.99</del></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Featured Product 3 -->
-                            <!-- Featured Product 4: Linen-blend Trousers -->
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="block-product">
-                                    <div class="product-thumb position-relative">
-                                        <a href="#"><img src='@Url.Content("~/Websites/images/resources/prd-4.jpg")'></a>
-                                        <a href="#" class="ad-cart position-absolute text-center"><span>Add to Cart</span></a>
-                                        <div class="product-btns position-absolute">
-                                            <a class="wishlist-btn" href="wishlist.html"><i class="fi fi-rr-heart"></i></a>
-                                            <a class="cart-btn" href="cart.html"><i class="fi fi-rr-shopping-bag"></i></a>
-                                            <a class="expand-btn" href='@Url.Content("~/Websites/images/resources/prd-4.jpg")'>
-                                                <i class="fi fi-rr-picture"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-body text-center">
-                                        <a href="#" class="brand-name">Molla</a>
-                                        <h2 class="product-name"><a href="#">Linen-blend paper bag trousers</a></h2>
-                                        <span class="product-price">$17.99</span>
-                                        <div class="prd-options">
-                                            <ul class="list-unstyled d-flex gap-2 align-items-center justify-content-center">
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-5.jpg")'></a></li>
-                                                <li><a href="#"><img src='@Url.Content("~/Websites/images/resources/s-prd-6.jpg")'></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Featured Product 4 -->
-
-                        </div>
+                    <div class="row">
+                        @Html.Partial("fetchProducts", ViewData["products"])
                     </div>
-                    <!-- End Tab Pane: Featured Products -->
-
                 </div>
                 <!-- End Tab Content -->
 
@@ -552,6 +437,7 @@
         </div>
     </div>
 </section>
+
 <!-- ============================================================ -->
 <!-- END FEATURED PRODUCTS TAB SECTION                            -->
 <!-- ============================================================ -->
@@ -663,7 +549,7 @@
                                 <a class="wishlist-btn" href="wishlist.html" style="transition-delay:0ms;">
                                     <i class="fi fi-rr-heart"></i>
                                 </a>
-                                <a class="cart-btn" href="cart.html" style="transition-delay: 45ms;">
+                                <a class="cart-btn"  style="transition-delay: 45ms;">
                                     <i class="fi-rr-shopping-bag"></i>
                                 </a>
                                 <a class="expand-btn" href="~/Websites/images/product-img1-2.jpg" style="transition-delay:90ms;">

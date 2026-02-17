@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<Product>
+
+
+<style>
+    .main-heading {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .main-heading::after {
+        content: "";
+        width: 80px;
+        height: 3px;
+        background: #007bff;
+        display: block;
+        margin: 10px auto 0;
+        border-radius: 5px;
+    }
+
+    .product-detail-card {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    .product-title {
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .product-price {
+        color: #28a745;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .product-desc {
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .btn-custom {
+        padding: 8px 20px;
+        border-radius: 25px;
+        margin-right: 10px;
+    }
+
+    .product-img {
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
+
+    .product-img:hover {
+        transform: scale(1.03);
+    }
+</style>
+
+<div class="container mt-5">
+
+    <h2 class="main-heading">Product Details</h2>
+
+    @foreach (var pro in Model)
+    {
+        <div class="product-detail-card">
+            <div class="row align-items-center">
+
+                <div class="col-md-5 text-center">
+                    <img src="@("~/product_images/"+pro.product_image)"
+                         asp-append-version="true"
+                         class="img-fluid product-img"
+                         style="max-height:450px;" />
+                </div>
+
+                <div class="col-md-1"></div>
+
+                <div class="col-md-6">
+
+                    <!-- Updated Product Name Heading -->
+                    <h3 class="product-title">
+                        Product Name : @pro.product_name
+                    </h3>
+
+                    <h4 class="product-price">
+                        Product Price : Rs. @pro.product_price
+                    </h4>
+
+                    <p class="product-desc">
+                        Product Description : @pro.product_description
+                    </p>
+
+                    <a href="@Url.Action("AddToCart", "Cart", new { id = pro.product_id })"
+                       class="btn btn-warning btn-custom">
+                        Add To Cart
+                    </a>
+
+                    <a href="@Url.Action("Checkout", "Cart", new { id = pro.product_id })"
+                       class="btn btn-primary btn-custom">
+                        Buy Now
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

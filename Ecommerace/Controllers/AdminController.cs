@@ -239,5 +239,55 @@ namespace Ecommerace.Controllers
             return RedirectToAction("fetchproduct");
         }
 
+        public IActionResult fetchFeedback()
+        {
+
+            return View(_context.tbl_Feedback.ToList());
+        }
+
+        public IActionResult deletePermissionFeedback(int id)
+        {
+            return View(_context.tbl_Feedback.FirstOrDefault(f => f.feedback_id == id));
+        }
+        public IActionResult deletefeedback(int id)
+        {
+            var feedback = _context.tbl_Feedback.Find(id);
+            _context.tbl_Feedback.Remove(feedback);
+            _context.SaveChanges();
+            return RedirectToAction("fetchFeedback");
+        }
+
+        public IActionResult fetchCart()
+        {
+            var cart = _context.tbl_Carts.Include(c => c.products).Include(c => c.customers).ToList();
+            return View(cart);
+        }
+
+        public IActionResult deletePermissionCarts(int id)
+        {
+            return View(_context.tbl_Carts.FirstOrDefault(f => f.cart_id == id));
+        }
+
+        public IActionResult deleteCart(int id)
+        {
+            var cart = _context.tbl_Carts.Find(id);
+            _context.tbl_Carts.Remove(cart);
+            _context.SaveChanges();
+            return RedirectToAction("fetchCart");
+        }
+
+        public IActionResult updateCarts(int id)
+        {
+            var cart = _context.tbl_Carts.Find(id);
+            return View(cart);
+        }
+        [HttpPost]
+        public IActionResult updateCarts( int cart_status, Carts carts)
+        {
+            carts.cart_status = cart_status;
+            _context.tbl_Carts.Update(carts);
+            _context.SaveChanges();
+            return RedirectToAction("fetchCart");
+        }
     }
 }

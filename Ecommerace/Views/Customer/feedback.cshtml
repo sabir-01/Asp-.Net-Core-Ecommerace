@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mt-2 text-center">Get In Touch With Us</h2>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-5">
+            <form method="post">
+                <input type="text" placeholder="Enter Your Full Name" name="user_name" class="form-control mb-4" />
+               <textarea class="form-control mb-4" style="height: 150px;" placeholder="Enter Your Message" name="user_message"></textarea>              
+               <input type="submit" class="btn btn-warning btn-block" />
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3043.486532514211!2d67.1520320278023!3d24.886523651166357!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb339999415e0c3%3A0x36742eee0fd9c291!2sAptech%20Metro%20Star%20Gate!5e0!3m2!1sen!2s!4v1690347450038!5m2!1sen!2s" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <h5 class="text-success">@TempData["message"]</h5>
+</div>
+

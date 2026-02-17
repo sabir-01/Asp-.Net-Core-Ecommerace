@@ -17,6 +17,9 @@ namespace Ecommerace.Controllers
         {
             List<Catagory> category = _context.tbl_Catagory.ToList();
             ViewData["category"] = category;
+
+            List<Product> products = _context.tbl_Product.ToList();
+            ViewData["products"] = products;
             ViewBag.checksession = HttpContext.Session.GetString("customerSession");
 
             return View();
@@ -82,7 +85,94 @@ namespace Ecommerace.Controllers
             }
 
         }
+
+        public IActionResult feedback()
+        {
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult feedback(Feedback feedback)
+        {
+            TempData["message"] = "Thank You For Your Feedback !";
+            _context.tbl_Feedback.Add(feedback);
+            _context.SaveChanges();
+            return RedirectToAction("feedback");
+        }
+
+        public IActionResult ProductDetail(int id)
+        {
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            var product = _context.tbl_Product.Where(p => p.product_id ==id).ToList();
+            return View(product);
+        }
+
+        public IActionResult fetchAllProducts()
+        {
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+
+            List<Product> products = _context.tbl_Product.ToList();
+            ViewData["product"] = products;
+
+            return View();
+        }
+
+        public IActionResult AddToCart(int prod_id, Carts cart)
+        {
+
+            string isLogin = HttpContext.Session.GetString("customerSession");
+            if (isLogin != null)
+            {
+                cart.prod_id = prod_id;
+                cart.cust_id = int.Parse(isLogin);
+                cart.product_quantity = 1;
+                cart.cart_status = 0;
+
+                _context.tbl_Carts.Add(cart);
+                _context.SaveChanges();
+
+                TempData["message"] = "Product Successfully Added in Cart";
+                return RedirectToAction("fetchAllProducts");
+            }
+            else
+            {
+                return RedirectToAction("CustomerLogin");
+            }
+        }
+
+        public IActionResult fetchChart()
+        {
+
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+
+            string customerId = HttpContext.Session.GetString("customerSession");
+            if (customerId != null)
+            {
+                var cart = _context.tbl_Carts.Where(c => c.cust_id == int.Parse(customerId)).Include(c => c.products).ToList();
+                return View(cart);
+            }
+            else
+            {
+                return RedirectToAction("customerLogin");
+            }
+        }
+
+        public IActionResult removeProduct(int id)
+        {
+            var product = _context.tbl_Carts.Find(id);
+            _context.tbl_Carts.Remove(product);
+            _context.SaveChanges();
+            return RedirectToAction("fetchChart");
+        }
+
+       
+
     }
 
-    
+
 }
