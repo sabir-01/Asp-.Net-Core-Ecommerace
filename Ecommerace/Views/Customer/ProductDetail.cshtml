@@ -3,6 +3,7 @@
     ViewData["Title"] = "ProductDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @model List<Product>
 
 
@@ -72,8 +73,8 @@
 
     @foreach (var pro in Model)
     {
-        <div class="product-detail-card">
-            <div class="row align-items-center">
+        <div class="product-detail-card " >
+            <div class="row align-items-center bg-red">
 
                 <div class="col-md-5 text-center">
                     <img src="@("~/product_images/"+pro.product_image)"
@@ -84,7 +85,7 @@
 
                 <div class="col-md-1"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" >
 
                     <!-- Updated Product Name Heading -->
                     <h3 class="product-title">

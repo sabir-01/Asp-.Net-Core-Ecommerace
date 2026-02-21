@@ -96,6 +96,7 @@ namespace Ecommerace.Controllers
         [HttpPost]
         public IActionResult feedback(Feedback feedback)
         {
+
             TempData["message"] = "Thank You For Your Feedback !";
             _context.tbl_Feedback.Add(feedback);
             _context.SaveChanges();
@@ -170,9 +171,46 @@ namespace Ecommerace.Controllers
             return RedirectToAction("fetchChart");
         }
 
-       
+        public IActionResult IncreaseQty(int id)
+        {
+            var cart = _context.tbl_Carts.FirstOrDefault(c => c.cart_id == id);
 
+            if (cart != null)
+            {
+                cart.product_quantity += 1;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("fetchChart");
+        }
+        public IActionResult DecreaseQty(int id)
+        {
+            var cart = _context.tbl_Carts.FirstOrDefault(c => c.cart_id == id);
+
+            if (cart != null)
+            {
+                // Quantity 1 se kam nahi hone deni
+                if (cart.product_quantity > 1)
+                {
+                    cart.product_quantity -= 1;
+                    _context.SaveChanges();
+                }
+                // Agar already 1 hai to kuch nahi karein (no delete)
+            }
+
+            return RedirectToAction("fetchChart");
+        }
+
+
+        public IActionResult AboutUs()
+        {
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            return View();
+        }
+
+    }
     }
 
 
-}
+

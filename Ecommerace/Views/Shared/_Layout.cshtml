@@ -17,7 +17,6 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-
         .navbar {
             background-color: #fff;
             border-bottom: 1px solid #ccc;
@@ -167,9 +166,9 @@
         <!-- Desktop Navigation: Mega Menu (visible on large screens only) -->
         <nav class="navbar">
             <ul>
-                <li><a href="#">HOME</a></li>
-                <li><a href="about.html">ABOUT US</a></li>
-                <li><a href="@Url.Action("ProductDetail","Customer")">PRODUCT</a></li>
+                <li><a href="@Url.Action("Index","Customer")">HOME</a></li>
+                <li><a href="@Url.Action("AboutUs","Customer")">ABOUT US</a></li>
+                <li><a href="@Url.Action("fetchAllProducts","Customer")">PRODUCT</a></li>
                 <li>
                     <a href="#">CATEGORY</a>
                     <ul class="submenu">                        
@@ -242,16 +241,16 @@
                             <h4 class="widget-title">Useful Links</h4>
                             <ul class="widget-list list-unstyled">
                                 <li>
-                                    <a href="about.html">About Midas</a>
+                                    <a href="#">About Midas</a>
                                 </li>
                                 <li>
                                     <a href="#">How to shop on Molla</a>
                                 </li>
                                 <li>
-                                    <a href="faq.html">FAQ</a>
+                                    <a href="#">FAQ</a>
                                 </li>
                                 <li>
-                                    <a href="contact-us.html">Contact us</a>
+                                    <a href="#">Contact us</a>
                                 </li>
                                 <li>
                                     <a href="#">Log in</a>

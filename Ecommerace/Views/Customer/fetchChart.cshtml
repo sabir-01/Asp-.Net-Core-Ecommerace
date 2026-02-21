@@ -3,40 +3,53 @@
     ViewData["Title"] = "fetchChart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 @model List<Carts>
+
 <div class="container mt-3">
     <h2>Your Cart</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered table-striped text-center">
-                <thead>
-                    <tr>
-                        <th>Cart Id</th>
-                        <th>Product Name</th>
-                        <th>Product Quantity</th>
-                        <th>product price</th>
-                        <th>Option</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cart in Model)
-                    {
-                        <tr>
-                            <td>@cart.cart_id</td>
-                            <td>@cart.products.product_name</td>
-                            <td>@cart.product_quantity</td>
-                            <td>@cart.product_quantity</td>
-                            <td>@cart.products.product_price</td>
-                            <td>
-                                <a href="@Url.Action("removeProduct","Customer", new {id=cart.cart_id})" class="btn btn-warning">Remove Product</a>
-                                <a href="@Url.Action("#","Customer", new {id=cart.cart_id})" class="btn btn-warning">check Out</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Cart Id</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var cart in Model)
+            {
+                <tr>
+                    <td>@cart.cart_id</td>
+                    <td>@cart.products.product_name</td>
+
+                    <!-- Quantity With + - Buttons -->
+                    <td>
+                        <a href="@Url.Action("DecreaseQty","Customer", new { id = cart.cart_id })"
+                           class="btn btn-danger btn-sm">-</a>
+
+                        <span class="mx-2">@cart.product_quantity</span>
+
+                        <a href="@Url.Action("IncreaseQty","Customer", new { id = cart.cart_id })"
+                           class="btn btn-success btn-sm">+</a>
+                    </td>
+
+                    <td>@cart.products.product_price</td>
+
+                    <td>
+                        @(cart.product_quantity * Convert.ToDecimal(cart.products.product_price))
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("RemoveProduct","Customer", new { id = cart.cart_id })"
+                           class="btn btn-warning btn-sm">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
