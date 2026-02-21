@@ -1,72 +1,113 @@
 ﻿@model List<Product>
 
 <style>
+  
+
+    /* Product Card */
     .block-product {
-        background-color: #6397A6;
-        border-radius: 10px;
+        background: #ffffff;
+        border-radius: 12px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #e6e6e6;
+        transition: all 0.3s ease;
+    }
+
+        /* Hover Effect */
+        .block-product:hover {
+            transform: translateY(-6px);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+
+    /* Image Container */
+    .product-thumb {
+        height: 220px;
+
+        width: 100%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+        .product-thumb img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+    /* Product Body */
+    .product-body {
+        flex-grow: 1;
         padding: 15px;
-        margin-bottom: 30px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Name */
+    .product-name {
+        font-weight: 600;
+        font-size: 16px;
+        min-height: 48px;
+        color: #333;
+    }
+
+    /* Price */
+    .product-price {
+        color: #0d6efd;
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    /* Button */
+    .btn-add-cart {
+        border-radius: 30px;
+        padding: 7px;
+        font-size: 14px;
+        background: #0d6efd;
+        color: #fff;
+        border: none;
         transition: 0.3s;
     }
 
-        .block-product:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        .btn-add-cart:hover {
+            background: #0b5ed7;
         }
 
-    .product-thumb img {
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-
-    .btn-add-cart {
-        display: block;
-        width: 100%;
-        border-radius: 25px;
-        margin-bottom: 10px;
-    }
-
-    .product-body {
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    .product-name {
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-
-    .product-price {
-        color: #28a745;
-        font-weight: bold;
-        font-size: 1.1rem;
-    }
 </style>
 
 <div class="row">
     @foreach (var prod in Model)
     {
-        <div class="col-lg-3 col-md-6 col-sm-12" >
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex">
             <div class="block-product">
 
-                <div class="product-thumb text-center">
-                    <a href="@Url.Action("ProductDetail","Customer",new{id=prod.product_id})">
-                        <img src='@("~/product_images/"+prod.product_image)' asp-append-version="true">
+                <div class="product-thumb">
+                    <a href="@Url.Action("ProductDetail","Customer", new { id = prod.product_id })">
+                        <img src='@("~/product_images/" + prod.product_image)' asp-append-version="true" />
                     </a>
                 </div>
 
-                <form method="post" asp-action="AddToCart">
-                    <input type="hidden" name="prod_id" value="@prod.product_id" />
-                    <button type="submit" class="btn btn-info btn-add-cart">
-                        Add To Cart
-                    </button>
-                </form>
-
                 <div class="product-body">
-                    <h2 class="product-name">@prod.product_name</h2>
-                    <span class="product-price">@prod.product_price</span>
+
+                    <div>
+                        <h2 class="product-name">Name :@prod.product_name</h2>
+                        <span class="product-price">Rs: @prod.product_price</span>
+                    </div>
+
+                    <form method="post" asp-action="AddToCart">
+                        <input type="hidden" name="prod_id" value="@prod.product_id" />
+                        <button type="submit" class="btn btn-add-cart w-100">
+                            Add To Cart
+                        </button>
+                    </form>
+
                 </div>
 
             </div>
