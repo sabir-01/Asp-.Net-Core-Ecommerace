@@ -1,0 +1,13 @@
+﻿
+@{
+   Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "OrderSuccess";
+}
+@model OrderDetails
+
+<div class="container mt-5 text-center">
+    <h2 class="text-success">✅ Your Order Has Been Placed Successfully!</h2>
+    <h2>@Model.sub_total</h2>
+    <p>Thank you for shopping with us.</p>
+    <a class="btn btn-primary mt-3" href="@Url.Action("Index", "Customer")">Continue Shopping</a>
+</div>

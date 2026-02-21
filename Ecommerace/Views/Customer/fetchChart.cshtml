@@ -1,55 +1,72 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "fetchChart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model List<Carts>
 
-<div class="container mt-3">
-    <h2>Your Cart</h2>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Your Cart</h2>
 
-    <table class="table table-bordered text-center">
-        <thead>
-            <tr>
-                <th>Cart Id</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var cart in Model)
-            {
+    @if (!Model.Any())
+    {
+        <h4 class="text-center text-danger">Your cart is empty!</h4>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
                 <tr>
-                    <td>@cart.cart_id</td>
-                    <td>@cart.products.product_name</td>
-
-                    <!-- Quantity With + - Buttons -->
-                    <td>
-                        <a href="@Url.Action("DecreaseQty","Customer", new { id = cart.cart_id })"
-                           class="btn btn-danger btn-sm">-</a>
-
-                        <span class="mx-2">@cart.product_quantity</span>
-
-                        <a href="@Url.Action("IncreaseQty","Customer", new { id = cart.cart_id })"
-                           class="btn btn-success btn-sm">+</a>
-                    </td>
-
-                    <td>@cart.products.product_price</td>
-
-                    <td>
-                        @(cart.product_quantity * Convert.ToDecimal(cart.products.product_price))
-                    </td>
-
-                    <td>
-                        <a href="@Url.Action("RemoveProduct","Customer", new { id = cart.cart_id })"
-                           class="btn btn-warning btn-sm">Remove</a>
-                    </td>
+                    <th>Cart ID</th>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @{
+                    decimal grandTotal = 0;
+                }
+
+                @foreach (var item in Model)
+                {
+                    decimal price = Convert.ToDecimal(item.products.product_price);
+                    decimal subtotal = price * item.product_quantity;
+                    grandTotal += subtotal;
+
+                    <tr>
+                        <td>@item.cart_id</td>
+                        <td>@item.products.product_name</td>
+                        <td><img src="~/product_images/@item.products.product_image" style="height:60px;" /></td>
+                        <td>
+                            <a href="@Url.Action("DecreaseQty","Customer", new { id = item.cart_id })" class="btn btn-danger btn-sm">-</a>
+                            <span class="mx-2">@item.product_quantity</span>
+                            <a href="@Url.Action("IncreaseQty","Customer", new { id = item.cart_id })" class="btn btn-success btn-sm">+</a>
+                        </td>
+                        <td>Rs. @price</td>
+                        <td>Rs. @subtotal</td>
+                        <td>
+                            <a href="@Url.Action("RemoveProduct","Customer", new { id = item.cart_id })" class="btn btn-warning btn-sm">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-end fw-bold">Grand Total:</td>
+                    <td colspan="2" class="fw-bold">Rs. @grandTotal</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- ✅ Checkout Button for ALL cart items -->
+    <div class="text-end mt-3">
+    <form method="post" asp-controller="Customer" asp-action="Checkoutinformation">
+        <input type="hidden" name="customerId" value="@Model[0].cust_id" />
+        <button type="submit" class="btn btn-warning">CheckOut</button>
+    </form>
+</div>
+    }
 </div>

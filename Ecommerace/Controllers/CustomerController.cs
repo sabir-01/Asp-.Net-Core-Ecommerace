@@ -26,11 +26,11 @@ namespace Ecommerace.Controllers
         }
 
         public IActionResult CustomerLogin()
-        {           
+        {
             return View();
         }
         [HttpPost]
-        public IActionResult CustomerLogin(string customer_username ,string customer_password)
+        public IActionResult CustomerLogin(string customer_username, string customer_password)
         {
 
             var customer = _context.Customers.FirstOrDefault(c => c.customer_email == customer_username);
@@ -76,11 +76,11 @@ namespace Ecommerace.Controllers
             else
             {
                 List<Catagory> category = _context.tbl_Catagory.ToList();
-                ViewData["category"] = category;            
-                    var customerid = HttpContext.Session.GetString("customerSession");
+                ViewData["category"] = category;
+                var customerid = HttpContext.Session.GetString("customerSession");
                 var row = _context.Customers.Where(a => a.customer_id == int.Parse(customerid)).ToList();
-           
-                
+
+
                 return View(row);
             }
 
@@ -107,7 +107,7 @@ namespace Ecommerace.Controllers
         {
             List<Catagory> category = _context.tbl_Catagory.ToList();
             ViewData["category"] = category;
-            var product = _context.tbl_Product.Where(p => p.product_id ==id).ToList();
+            var product = _context.tbl_Product.Where(p => p.product_id == id).ToList();
             return View(product);
         }
 
@@ -208,9 +208,116 @@ namespace Ecommerace.Controllers
             ViewData["category"] = category;
             return View();
         }
+        public IActionResult OrderSuccess()
+        {
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            return View();
+        }
+
+        public IActionResult Checkoutinformation()
+        {
+         
+            return View();
+        }   
+        // Step 2: Confirm order (POST)
+        [HttpPost]
+        public IActionResult Checkoutinformation(int customerId)
+        {
+            var cartItems = _context.tbl_Carts
+                .Where(c => c.cust_id == customerId && c.cart_status == 1)
+                .Include(c => c.products)
+                .Include(c => c.customers)
+                .ToList();
+
+            if (!cartItems.Any())
+                return RedirectToAction("fetchChart");
+
+            // Create order
+            Order order = new Order
+            {
+                customer_id = customerId,
+                shipping_address = cartItems.First().customers.customer_address,
+                order_status = "Confirmed",
+                order_date = DateTime.Now,
+                total_amount = 0
+            };
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            decimal total = 0;
+
+            foreach (var item in cartItems)
+            {
+                decimal price = Convert.ToDecimal(item.products.product_price);
+
+                OrderDetails details = new OrderDetails
+                {
+                    order_id = order.order_id,
+                    product_id = item.prod_id,
+                    quantity = item.product_quantity,
+                    price = price,
+                    sub_total = price * item.product_quantity
+                };
+
+                total += details.sub_total;
+                _context.OrderDetails.Add(details);
+            }
+
+            order.total_amount = total;
+
+            _context.tbl_Carts.RemoveRange(cartItems);
+            _context.SaveChanges();
+
+            TempData["message"] = "Order Placed Successfully!";
+            return RedirectToAction("OrderSuccess");
+        }
+
+        // Step : Checkout page
+        public IActionResult Checkout()
+        {
+            string customerIdStr = HttpContext.Session.GetString("customerSession");
+            if (string.IsNullOrEmpty(customerIdStr))
+            {
+                // Not logged in
+                TempData["message"] = "Please login first to checkout!";
+                return RedirectToAction("CustomerLogin");
+            }
+
+            int customerId = int.Parse(customerIdStr);
+
+            // Get all cart items
+            var cartItems = _context.tbl_Carts
+                .Where(c => c.cust_id == customerId && c.cart_status == 1)
+                .Include(c => c.products)
+                .ToList();
+
+            if (!cartItems.Any())
+            {
+                TempData["message"] = "Your cart is empty!";
+                return RedirectToAction("fetchChart");
+            }
+
+            // Calculate totals
+            decimal grandTotal = 0;
+            foreach (var item in cartItems)
+            {
+                decimal price = Convert.ToDecimal(item.products.product_price);
+                grandTotal += price * item.product_quantity;
+            }
+
+            ViewBag.GrandTotal = grandTotal;
+
+            // Shipping info
+            var customer = _context.Customers.FirstOrDefault(c => c.customer_id == customerId);
+            ViewBag.ShippingAddress = customer.customer_address;
+
+            return View(cartItems); // pass cart items to Checkout page
+        }
+
 
     }
-    }
+}
 
 
 

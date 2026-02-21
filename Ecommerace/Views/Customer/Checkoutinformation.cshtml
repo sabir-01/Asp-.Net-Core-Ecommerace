@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Checkoutinformation";
+}
+@model List<Carts> 
+
+<h1>Checkoutinformation</h1>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Checkout Information</h2>
+
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                decimal grandTotal = 0;
+            }
+
+            @foreach (var item in Model)
+            {
+                decimal price = Convert.ToDecimal(item.products.product_price);
+                decimal subtotal = price * item.product_quantity;
+                grandTotal += subtotal;
+
+                <tr>
+                    <td>@item.products.product_name</td>
+                    <td><img src="~/product_images/@item.products.product_image" style="height:60px;" /></td>
+                    <td>@item.product_quantity</td>
+                    <td>Rs. @price</td>
+                    <td>Rs. @subtotal</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end fw-bold">Grand Total:</td>
+                <td class="fw-bold">Rs. @grandTotal</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="mt-4">
+        <h5>Shipping Address:</h5>
+        <p>@ViewBag.ShippingAddress</p>
+    </div>
+
+    <form method="post" asp-action="Checkout">
+        <input type="hidden" name="customerId" value="@Model.First().cust_id" />
+        <button type="submit" class="btn btn-success btn-lg mt-3">Place Order &rarr;</button>
+    </form>
+</div>

@@ -15,7 +15,8 @@ namespace Ecommerace.Models
         public DbSet<Carts> tbl_Carts { get; set; }
         public DbSet<Feedback> tbl_Feedback { get; set; }
         public DbSet<Faqs> tbl_Faqs { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -288,6 +288,14 @@ namespace Ecommerace.Controllers
             _context.tbl_Carts.Update(carts);
             _context.SaveChanges();
             return RedirectToAction("fetchCart");
+        }    
+        
+        public IActionResult OrderDetails()
+        {
+            var orderDetails = _context.OrderDetails.ToList(); // or whatever your DB context is
+
+            // Pass the list to the view
+            return View(orderDetails);
         }
     }
 }
