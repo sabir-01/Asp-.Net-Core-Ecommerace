@@ -1,0 +1,10 @@
+﻿@model List<Product>
+<select name="product_id" class="form-control my-3">
+
+    @foreach (var item in Model)
+    {
+
+        <option value="@item.product_id" selected="@item.product_id==ViewBag.product_id">@item.product_name</option>
+   
+    }
+</select>

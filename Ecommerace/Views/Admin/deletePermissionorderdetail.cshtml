@@ -1,0 +1,56 @@
+﻿@model OrderDetails
+
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">
+        Are You Sure You Want To Delete This Order Detail?
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+
+        <ul class="list-group my-3">
+            <li class="list-group-item">
+                <b>Order Detail ID :</b> @Model.orderDetails_id
+            </li>
+
+            <li class="list-group-item">
+                <b>Order ID :</b> @Model.order_id
+            </li>
+
+            <li class="list-group-item">
+                <b>Product ID :</b> @Model.product_id
+            </li>
+
+            <li class="list-group-item">
+                <b>Quantity :</b> @Model.quantity
+            </li>
+
+            <li class="list-group-item">
+                <b>Price :</b> @Model.price
+            </li>
+
+            <li class="list-group-item">
+                <b>Sub Total :</b> @Model.sub_total
+            </li>
+        </ul>
+
+        <!-- Delete Button -->
+        <a href="@Url.Action("DeleteOrderDetailConfirmed","Admin",
+                new { id = Model.orderDetails_id })"
+           class="btn btn-danger">
+            Delete
+        </a>
+
+        <a href="@Url.Action("OrderDetails","Admin")"
+           class="btn btn-warning">
+            Back to List
+        </a>
+
+    </div>
+
+    <div class="col-md-2"></div>
+</div>

@@ -1,3 +1,117 @@
-﻿<div class="container-fluid px-4">
-    <h1 class="mt-4 text-center">Admin DashBoard</h1>
+﻿
+<div class="container-fluid px-4">
+    <h1 class="mt-4 text-center">Admin Dashboard</h1>
+
+    <div class="row mt-4">
+
+        <!-- Customers -->
+        <div class="col-md-3">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total Customers</h5>
+                    <h2>@ViewBag.TotalCustomers</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders -->
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total Orders</h5>
+                    <h2>@ViewBag.TotalOrders</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Details -->
+        <div class="col-md-3">
+            <div class="card bg-info text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Order Details</h5>
+                    <h2>@ViewBag.TotalOrderDetails</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total Products</h5>
+                    <h2>@ViewBag.TotalProducts</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="col-md-3 mt-4">
+            <div class="card bg-warning text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total Categories</h5>
+                    <h2>@ViewBag.TotalCategories</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart -->
+        <div class="col-md-3 mt-4">
+            <div class="card bg-secondary text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Items In Cart</h5>
+                    <h2>@ViewBag.TotalCart</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="col-md-3 mt-4">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body text-center">
+                    <h5>User Feedback</h5>
+                    <h2>@ViewBag.TotalFeedback</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQs -->
+        <div class="col-md-3 mt-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total FAQs</h5>
+                    <h2>@ViewBag.TotalFaqs</h2>
+                </div>
+            </div>
+        </div>
+
+    
+
+        <!-- Revenue -->
+        <div class="col-md-12 mt-4 ">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body text-center">
+                    <h5>Total Revenue</h5>
+                    <h2>@ViewBag.TotalRevenue</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+<script>
+    var monthlyOrders = @Html.Raw(Json.Serialize(ViewBag.MonthlyOrders));
+
+    var ctx = document.getElementById('ordersChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Orders',
+                data: monthlyOrders
+            }]
+        }
+    });
+</script>

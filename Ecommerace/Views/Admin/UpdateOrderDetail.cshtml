@@ -1,0 +1,75 @@
+﻿@model OrderDetails
+
+<h1>Order Detail Page</h1>
+
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">
+        Update / Edit Order Details
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+
+        <!-- Main Update Form -->
+        <form method="post">
+
+            <!-- Hidden Primary Key -->
+            <input type="hidden" name="orderDetails_id" value="@Model.orderDetails_id" />
+
+            <!-- Order ID -->
+            <label>Order ID</label>
+            <input type="number"
+                   name="order_id"
+                   class="form-control my-3"
+                   value="@Model.order_id"
+                   readonly />
+
+            <!-- Product चयन -->
+            <label>Product</label>
+            @Html.Partial("ProductDropdown", ViewData["products"])
+
+            <!-- Quantity -->
+            <label>Quantity</label>
+            <input type="number"
+                   name="quantity"
+                   class="form-control my-3"
+                   value="@Model.quantity" />
+
+            <!-- Price -->
+            <label>Price</label>
+            <input type="number"
+                   step="0.01"
+                   name="price"
+                   class="form-control my-3"
+                   value="@Model.price" />
+
+            <!-- Sub Total -->
+            <label>Sub Total</label>
+            <input type="number"
+                   step="0.01"
+                   name="sub_total"
+                   class="form-control my-3"
+                   value="@Model.sub_total"
+                   readonly />
+
+            <input type="submit"
+                   value="Update Order Detail"
+                   class="form-control my-3 btn btn-primary" />
+
+            <br />
+
+            <a href="@Url.Action("OrderDetailsList","Admin")"
+               class="btn btn-warning form-control my-3">
+               Back to List
+            </a>
+
+        </form>
+
+    </div>
+
+    <div class="col-md-2"></div>
+</div>

@@ -18,7 +18,27 @@ namespace Ecommerace.Controllers
             string admin_session = HttpContext.Session.GetString("admin_session");
             if (admin_session != null)
             {
+                ViewBag.TotalCustomers = _context.Customers.Count();
+                ViewBag.TotalOrderDetails = _context.OrderDetails.Count();
+                ViewBag.TotalOrders = _context.Orders.Count();
+                ViewBag.TotalCart = _context.tbl_Carts.Count();
+                ViewBag.TotalCategories = _context.tbl_Catagory.Count();
+                ViewBag.TotalFaqs = _context.tbl_Faqs.Count();
+                ViewBag.TotalFeedback = _context.tbl_Feedback.Count();
+                ViewBag.TotalProducts = _context.tbl_Product.Count();
+
+                // Revenue (from OrderDetails)
+                ViewBag.TotalRevenue = _context.OrderDetails
+                                       .Sum(x => (decimal?)x.sub_total) ?? 0;
+
+                // Monthly Orders Chart
+                ViewBag.MonthlyOrders = _context.Orders
+                    .GroupBy(o => o.order_date.Month)
+                    .Select(g => g.Count())
+                    .ToList();
+
                 return View();
+
             }
             else
             {
@@ -293,9 +313,51 @@ namespace Ecommerace.Controllers
         public IActionResult OrderDetails()
         {
             var orderDetails = _context.OrderDetails.ToList(); // or whatever your DB context is
-
             // Pass the list to the view
             return View(orderDetails);
+        }
+
+        public IActionResult UpdateOrderDetail(int id)
+        {
+            var data = _context.OrderDetails.Find(id);
+
+            ViewData["products"] = _context.tbl_Product.ToList();
+
+            return View(data);
+        }
+        
+        [HttpPost]
+        public IActionResult UpdateOrderDetail(OrderDetails model)
+        {
+            var data = _context.OrderDetails.Find(model.orderDetails_id);
+
+            if (data != null)
+            {
+                data.product_id = model.product_id;
+                data.quantity = model.quantity;
+                data.price = model.price;
+
+                // Always recalc subtotal
+                data.sub_total = model.quantity * model.price;
+
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("OrderDetails");
+        }
+
+
+        public IActionResult deletePermissionorderdetail(int id)
+        {
+            return View(_context.OrderDetails.FirstOrDefault(f => f.orderDetails_id == id));
+        }
+
+        public IActionResult DeleteOrderDetailConfirmed(int id)
+        {
+            var product = _context.OrderDetails.Find(id);
+            _context.OrderDetails.Remove(product);
+            _context.SaveChanges();
+            return RedirectToAction("OrderDetails");
         }
     }
 }
