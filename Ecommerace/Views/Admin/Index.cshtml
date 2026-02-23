@@ -1,13 +1,15 @@
-﻿
+﻿@using System.Text.Json
+
 <div class="container-fluid px-4">
     <h1 class="mt-4 text-center">Admin Dashboard</h1>
 
-    <div class="row mt-4">
+    <div class="row mt-4 g-4">
 
         <!-- Customers -->
         <div class="col-md-3">
-            <div class="card bg-dark text-white shadow">
+            <div class="card text-white shadow rounded-4" style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
                     <h5>Total Customers</h5>
                     <h2>@ViewBag.TotalCustomers</h2>
                 </div>
@@ -16,8 +18,9 @@
 
         <!-- Orders -->
         <div class="col-md-3">
-            <div class="card bg-primary text-white shadow">
+            <div class="card text-white shadow rounded-4" style="background: linear-gradient(135deg, #1d2671, #c33764); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-shopping-cart fa-2x mb-2"></i>
                     <h5>Total Orders</h5>
                     <h2>@ViewBag.TotalOrders</h2>
                 </div>
@@ -26,8 +29,9 @@
 
         <!-- Order Details -->
         <div class="col-md-3">
-            <div class="card bg-info text-white shadow">
+            <div class="card text-white shadow rounded-4" style="background: linear-gradient(135deg, #2b5876, #4e4376); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-clipboard-list fa-2x mb-2"></i>
                     <h5>Order Details</h5>
                     <h2>@ViewBag.TotalOrderDetails</h2>
                 </div>
@@ -36,8 +40,9 @@
 
         <!-- Products -->
         <div class="col-md-3">
-            <div class="card bg-success text-white shadow">
+            <div class="card text-white shadow rounded-4" style="background: linear-gradient(135deg, #11998e, #38ef7d); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-box-open fa-2x mb-2"></i>
                     <h5>Total Products</h5>
                     <h2>@ViewBag.TotalProducts</h2>
                 </div>
@@ -45,9 +50,10 @@
         </div>
 
         <!-- Categories -->
-        <div class="col-md-3 mt-4">
-            <div class="card bg-warning text-white shadow">
+        <div class="col-md-3">
+            <div class="card text-white shadow rounded-4 mt-4" style="background: linear-gradient(135deg, #f7971e, #ffd200); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-tags fa-2x mb-2"></i>
                     <h5>Total Categories</h5>
                     <h2>@ViewBag.TotalCategories</h2>
                 </div>
@@ -55,9 +61,10 @@
         </div>
 
         <!-- Cart -->
-        <div class="col-md-3 mt-4">
-            <div class="card bg-secondary text-white shadow">
+        <div class="col-md-3">
+            <div class="card text-white shadow rounded-4 mt-4" style="background: linear-gradient(135deg, #434343, #000000); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-shopping-basket fa-2x mb-2"></i>
                     <h5>Items In Cart</h5>
                     <h2>@ViewBag.TotalCart</h2>
                 </div>
@@ -65,9 +72,10 @@
         </div>
 
         <!-- Feedback -->
-        <div class="col-md-3 mt-4">
-            <div class="card bg-danger text-white shadow">
+        <div class="col-md-3">
+            <div class="card text-white shadow rounded-4 mt-4" style="background: linear-gradient(135deg, #ff416c, #ff4b2b); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-comments fa-2x mb-2"></i>
                     <h5>User Feedback</h5>
                     <h2>@ViewBag.TotalFeedback</h2>
                 </div>
@@ -75,23 +83,49 @@
         </div>
 
         <!-- FAQs -->
-        <div class="col-md-3 mt-4">
-            <div class="card bg-primary text-white shadow">
+        <div class="col-md-3">
+            <div class="card text-white shadow rounded-4 mt-4" style="background: linear-gradient(135deg, #396afc, #2948ff); transition: transform 0.3s;">
                 <div class="card-body text-center">
+                    <i class="fas fa-question-circle fa-2x mb-2"></i>
                     <h5>Total FAQs</h5>
                     <h2>@ViewBag.TotalFaqs</h2>
                 </div>
             </div>
         </div>
 
-    
+    </div>
 
-        <!-- Revenue -->
-        <div class="col-md-12 mt-4 ">
-            <div class="card bg-success text-white shadow">
-                <div class="card-body text-center">
-                    <h5>Total Revenue</h5>
-                    <h2>@ViewBag.TotalRevenue</h2>
+    <!-- Optional: Add hover effect -->
+    <style>
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+    </style>
+
+    <!-- Font Awesome for icons -->
+    <div class="row mt-5">
+
+        <!-- Orders Overview Chart -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4>Orders Overview</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="ordersChart" style="height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products by Category Chart -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4>Products by Category</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" style="height:300px;"></canvas>
                 </div>
             </div>
         </div>
@@ -99,19 +133,55 @@
     </div>
 </div>
 <script>
-    var monthlyOrders = @Html.Raw(Json.Serialize(ViewBag.MonthlyOrders));
+   
+    document.addEventListener("DOMContentLoaded", function () {
 
-    var ctx = document.getElementById('ordersChart').getContext('2d');
+        var monthlyOrders = @Html.Raw(JsonSerializer.Serialize(ViewBag.MonthlyOrders));
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-                label: 'Orders',
-                data: monthlyOrders
-            }]
-        }
+        var ctx = document.getElementById('ordersChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Orders',
+                    data: monthlyOrders
+                }]
+            }
+        });
+
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Use Newtonsoft.Json or System.Text.Json depending on your setup
+        var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.CategoryNames));
+        var data = @Html.Raw(JsonSerializer.Serialize(ViewBag.CategoryCounts));
+
+        var ctx = document.getElementById('categoryChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Products per Category',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
     });
 </script>
