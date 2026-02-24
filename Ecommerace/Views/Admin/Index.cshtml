@@ -1,5 +1,12 @@
 ﻿@using System.Text.Json
 
+<style>
+    .chart-container {
+        height: 350px; /* 🔥 Same height for both */
+        position: relative;
+        margin-top:10px;
+    }
+</style>
 <div class="container-fluid px-4">
     <h1 class="mt-4 text-center">Admin Dashboard</h1>
 
@@ -130,10 +137,37 @@
             </div>
         </div>
 
+
+        <!-- Orders per Customer -->
+
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h4>Orders per Customer</h4>
+                </div>
+                <div class="card-body chart-container">
+                    <canvas id="orderCustomerDoughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h4>Orders vs Customers</h4>
+                </div>
+                <div class="card-body chart-container">
+                    <canvas id="multiAxisLineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+
 <script>
-   
+    //////////////////////////////////////
     document.addEventListener("DOMContentLoaded", function () {
 
         var monthlyOrders = @Html.Raw(JsonSerializer.Serialize(ViewBag.MonthlyOrders));
@@ -154,7 +188,7 @@
 
     });
 
-
+    //////////////////////////////////////
     document.addEventListener("DOMContentLoaded", function () {
 
         // Use Newtonsoft.Json or System.Text.Json depending on your setup
@@ -184,4 +218,124 @@
         });
 
     });
+//////////////////////////////////////
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.CustomerNames));
+        var ordersData = @Html.Raw(JsonSerializer.Serialize(ViewBag.OrderCounts));
+
+        function generateColors(count) {
+            let bgColors = [];
+            let borderColors = [];
+
+            for (let i = 0; i < count; i++) {
+                let r = Math.floor(Math.random() * 255);
+                let g = Math.floor(Math.random() * 255);
+                let b = Math.floor(Math.random() * 255);
+
+                bgColors.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+                borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`);
+            }
+
+            return { bgColors, borderColors };
+        }
+
+        var colors = generateColors(labels.length);
+
+        var ctx = document.getElementById('orderCustomerDoughnutChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Orders per Customer',
+                    data: ordersData,
+                    backgroundColor: colors.bgColors,
+                    borderColor: colors.borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '50%',
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+    });
+    //////////////////////////
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.CustomerNames));
+        var ordersData = @Html.Raw(JsonSerializer.Serialize(ViewBag.OrderCounts));
+        var customersData = @Html.Raw(JsonSerializer.Serialize(ViewBag.TotalCustomers));
+
+        var ctx = document.getElementById('multiAxisLineChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line', // Line chart
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Orders',
+                        data: ordersData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        yAxisID: 'yOrders',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Customers',
+                        data: customersData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        yAxisID: 'yCustomers',
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                stacked: false,
+                scales: {
+                    yOrders: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Orders'
+                        }
+                    },
+                    yCustomers: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: true,
+                        grid: {
+                            drawOnChartArea: false // avoids overlapping grid lines
+                        },
+                        title: {
+                            display: true,
+                            text: 'Customers'
+                        }
+                    }
+                }
+            }
+        });
+
+    });
+        //////////////////////////////////////
 </script>

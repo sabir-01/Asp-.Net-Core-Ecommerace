@@ -10,5 +10,6 @@ namespace Ecommerace.Models
         public string faq_question { get; set; }
 
         public string faq_answer { get; set; }
+
     }
 }

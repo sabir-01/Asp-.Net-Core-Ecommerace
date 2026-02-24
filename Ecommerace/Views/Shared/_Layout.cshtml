@@ -141,7 +141,7 @@
     </style>
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <!-- ============================================================ -->
     <!-- HEADER SECTION                                               -->
@@ -249,7 +249,7 @@
     <!-- RAZOR BODY RENDER (ASP.NET Layout Placeholder)               -->
     <!-- ============================================================ -->
     <div id="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 flex-fill">
             <div>
                 @RenderBody()
             </div>
@@ -265,7 +265,7 @@
     <!-- ============================================================ -->
     
     <footer>
-        <div class="w-100 ft-main">
+        <div class="w-100 ft-main mt-auto bg-dark text-white pt-5 pb-3">
             <div class="container">
                 <div class="row">
 

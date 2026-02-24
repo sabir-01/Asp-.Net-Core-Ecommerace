@@ -7,15 +7,15 @@
     <div class="col-md-8">
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="@Model.customer_id" name="customer_id" />
-            <input type="text" value="@Model.customer_name" name="customer_name" class="form-control my-3" />
-            <input type="text" value="@Model.customer_phone" name="customer_phone" class="form-control my-3" />
-            <input type="text" value="@Model.customer_email" name="customer_email" class="form-control my-3" />
-            <input type="text" value="@Model.customer_password" name="customer_password" class="form-control my-3" />
-            <input type="text" value="@Model.customer_gender" name="customer_gender" class="form-control my-3" />
-            <input type="text" value="@Model.customer_country" name="customer_country" class="form-control my-3" />
-            <input type="text" value="@Model.customer_city" name="customer_city" class="form-control my-3" />
-            <input type="text" value="@Model.customer_address" name="customer_address" class="form-control my-3" />
-            <input type="file" value="@Model.customer_image" name="customer_image" class="form-control my-3 " />
+            <input type="text" placeholder="Enter Name" value="@Model.customer_name" name="customer_name" class="form-control my-3" />
+            <input type="text" placeholder="Enter phone no" value="@Model.customer_phone" name="customer_phone" class="form-control my-3" />
+            <input type="text" placeholder="Enter Email" value="@Model.customer_email" name="customer_email" class="form-control my-3" />
+            <input type="text" placeholder="Enter Password" value="@Model.customer_password" name="customer_password" class="form-control my-3" />
+            <input type="text" placeholder="Chose Gender" value="@Model.customer_gender" name="customer_gender" class="form-control my-3" />
+            <input type="text" placeholder="Enter your country" value="@Model.customer_country" name="customer_country" class="form-control my-3" />
+            <input type="text" placeholder="Cit Name" value="@Model.customer_city" name="customer_city" class="form-control my-3" />
+            <input type="text" placeholder="Enter Address" value="@Model.customer_address" name="customer_address" class="form-control my-3" />
+            <input type="file" placeholder="" value="@Model.customer_image" name="customer_image" class="form-control my-3 " />
             <input type="submit" value="update Customer" class="form-control my-3 btn btn-primary" />
             <a href="@Url.Action("fetchCustomer","Admin")" class="btn btn-warning my-3"> Back to List</a>
 

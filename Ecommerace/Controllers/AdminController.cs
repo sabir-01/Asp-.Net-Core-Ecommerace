@@ -23,7 +23,8 @@ namespace Ecommerace.Controllers
                 LoadDashboardCounts();
                 LoadMonthlyOrders();
                 LoadCategoryChart();
-
+                LoadOrderCustomerChart();
+                LoadDashboard();
                 return View(); // Show dashboard
             }
             else // ❌ Not logged in
@@ -31,11 +32,14 @@ namespace Ecommerace.Controllers
                 return RedirectToAction("Login"); // Send to login page
             }
         }
-
+        private void LoadDashboard()
+        {
+            ViewBag.TotalCustomers = _context.Customers.Count();
+        }
         // Count totals
         private void LoadDashboardCounts()
         {
-            ViewBag.TotalCustomers = _context.Customers.Count();
+           // ViewBag.TotalCustomers = _context.Customers.Count();
             ViewBag.TotalOrderDetails = _context.OrderDetails.Count();
             ViewBag.TotalOrders = _context.Orders.Count();
             ViewBag.TotalCart = _context.tbl_Carts.Count();
@@ -43,7 +47,6 @@ namespace Ecommerace.Controllers
             ViewBag.TotalFaqs = _context.tbl_Faqs.Count();
             ViewBag.TotalFeedback = _context.tbl_Feedback.Count();
             ViewBag.TotalProducts = _context.tbl_Product.Count();
-            ViewBag.TotalRevenue = _context.OrderDetails.Sum(x => (decimal?)x.sub_total) ?? 0;
         }
 
         // Monthly orders chart
@@ -76,6 +79,22 @@ namespace Ecommerace.Controllers
 
             ViewBag.CategoryNames = categories;
             ViewBag.CategoryCounts = categoryCounts;
+        }
+
+        private void LoadOrderCustomerChart()
+        {
+            var data = _context.Customers
+         .Select(c => new
+         {
+             Name = c.customer_name,
+             OrderCount = _context.Orders
+                 .Where(o => o.customer_id == c.customer_id)
+                 .Count()
+         })
+         .ToList();
+
+            ViewBag.CustomerNames = data.Select(d => d.Name).ToList();
+            ViewBag.OrderCounts = data.Select(d => d.OrderCount).ToList();
         }
         //public IActionResult Index()
         //{
