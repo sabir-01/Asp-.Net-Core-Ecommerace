@@ -1,29 +1,86 @@
 ﻿@model Admin
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">My Profile</h2>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <form method="post">
-            <input type="hidden" name="admin_id" value="@Model.admin_id" />
-            <input type="text" placeholder="Enter Your Name" name="admin_name" class="form-control my-3" value="@Model.admin_name"/>
-            <input type="text" placeholder="Enter Your Email" name="admin_email" class="form-control my-3" value="@Model.admin_email"/>
-            <input type="password" placeholder="Enter Your Password" name="admin_password" class="form-control my-3" value="@Model.admin_password"/>
-            <input type="hidden" name="admin_image" value="@Model.admin_image" />
 
-            <input type="submit" value="Update Profile" class="form-control my-3 btn btn-primary"  />
-        </form>
-        <form method="post" asp-action="changeProfile" enctype="multipart/form-data">
-            <input type="hidden" name="admin_id" value="@Model.admin_id" />
-            <input type="hidden" name="admin_name" value="@Model.admin_name" />
-            <input type="hidden" name="admin_email" value="@Model.admin_email" />
-            <input type="hidden" name="admin_password" value="@Model.admin_password" />
-            <input type="file" name="admin_image" class="form-control my-3" />
-            <img src="@("~/admin_image/"+Model.admin_image )" asp-append-version="true" width="250px" height="250px " /> <br /> <br />
-            <input type="submit" value="Change Profile" class="form-control my-3 btn btn-primary" />
-        </form>
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card shadow border-0 rounded-4">
+
+        <div class="card-header bg-dark text-white text-center rounded-top-4">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                My Profile
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Profile Update -->
+                <div class="col-md-6 border-end">
+
+                    <form method="post">
+
+                        <input type="hidden" name="admin_id" value="@Model.admin_id" />
+                        <input type="hidden" name="admin_image" value="@Model.admin_image" />
+
+                        <input type="text"
+                               name="admin_name"
+                               class="form-control mb-3"
+                               value="@Model.admin_name"
+                               placeholder="Enter Your Name" />
+
+                        <input type="text"
+                               name="admin_email"
+                               class="form-control mb-3"
+                               value="@Model.admin_email"
+                               placeholder="Enter Your Email" />
+
+                        <input type="password"
+                               name="admin_password"
+                               class="form-control mb-3"
+                               placeholder="Enter New Password" />
+
+                        <button type="submit"
+                                class="btn btn-dark w-100">
+                            Update Profile
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- Profile Image -->
+                <div class="col-md-6 text-center">
+
+                    <form method="post"
+                          action="@Url.Action("changeProfile","Admin")"
+                          enctype="multipart/form-data">
+
+                        <input type="hidden" name="admin_id" value="@Model.admin_id" />
+                        <input type="hidden" name="admin_name" value="@Model.admin_name" />
+                        <input type="hidden" name="admin_email" value="@Model.admin_email" />
+                        <input type="hidden" name="admin_password" value="@Model.admin_password" />
+
+                        <img src="@Url.Content("~/admin_image/" + Model.admin_image)"
+                             class="img-fluid rounded-circle shadow mb-3"
+                             style="width:200px;height:200px;object-fit:cover;" />
+
+                        <input type="file"
+                               name="admin_image"
+                               class="form-control mb-3" />
+
+                        <button type="submit"
+                                class="btn btn-outline-dark w-100">
+                            Change Profile Image
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="col-md-2"></div>
+
 </div>

@@ -1,37 +1,76 @@
 ﻿@model List<Customer>
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">All Customer</h2>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered table-striped text-center mt-2">
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Customer Phone</th>
-                    <th>Customer Country</th>
-                    <th>Customer City</th>
-                    <th>Customer Address</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var cust in Model)
-                {
-                    <tr>
-                        <td>@cust.customer_name</td>
-                        <td>@cust.customer_phone</td>
-                        <td>@cust.customer_country</td>
-                        <td>@cust.customer_city</td>
-                        <td>@cust.customer_address</td>
-                        <td>
-                            <a href="@Url.Action("Detailcustomer","Admin", new{id =@cust.customer_id})" class="btn btn-primary">Details</a>
-                            <a href="@Url.Action("Updatecustomer","Admin", new{id =@cust.customer_id})" class="btn btn-warning">Update</a>
-                            <a href="@Url.Action("deletePermission","Admin", new{id =@cust.customer_id})" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card border-0 shadow-lg rounded-4">
+
+        <div class="card-header bg-dark text-white rounded-top-4 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                All Customer
+            </h4>
+
+            <span class="badge bg-light text-dark fs-6">
+                Total: @Model.Count
+            </span>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle text-center">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
+                            <th>Customer Country</th>
+                            <th>Customer City</th>
+                            <th>Customer Address</th>
+                            <th width="220">Options</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var cust in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@cust.customer_name</td>
+                                <td>@cust.customer_phone</td>
+                                <td>@cust.customer_country</td>
+                                <td>@cust.customer_city</td>
+                                <td>@cust.customer_address</td>
+
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <a href="@Url.Action("Detailcustomer","Admin", new { id = cust.customer_id })"
+                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            <i class="fa-solid fa-eye me-1"></i> Details
+                                        </a>
+
+                                        <a href="@Url.Action("Updatecustomer","Admin", new { id = cust.customer_id })"
+                                           class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                                            <i class="fa-solid fa-pen me-1"></i> Update
+                                        </a>
+
+                                        <a href="@Url.Action("deletePermission","Admin", new { id = cust.customer_id })"
+                                           class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                            <i class="fa-solid fa-trash me-1"></i> Delete
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>

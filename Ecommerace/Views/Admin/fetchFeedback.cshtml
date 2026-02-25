@@ -1,34 +1,58 @@
 ﻿@model List<Feedback>
 
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">All Feedback</h2>
-</div>
+<div class="container-fluid px-4 mt-4">
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered table-striped text-center mt-3">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>User Message</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var feedback in Model)
-                {
-                    <tr>
-                        <td>@feedback.user_name</td>
-                        <td>@feedback.user_message</td>
-                        <td>
-                            <a href="@Url.Action("deletePermissionFeedback","Admin", new {id=feedback.feedback_id})"
-                               class="btn btn-danger">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-dark text-white rounded-top-4 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                All Feedback
+            </h4>
+            <span class="badge bg-light text-dark fs-6">
+                Total: @Model.Count
+            </span>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle text-center">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Username</th>
+                            <th>User Message</th>
+                            <th width="150">Options</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var feedback in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@feedback.user_name</td>
+                                <td>@feedback.user_message</td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <a href="@Url.Action("deletePermissionFeedback","Admin", new { id = feedback.feedback_id })"
+                                           class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                            <i class="fa-solid fa-trash me-1"></i> Delete
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>

@@ -22,6 +22,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Subtotal</th>
+                    <th>status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -47,6 +48,7 @@
                         </td>
                         <td>Rs. @price</td>
                         <td>Rs. @subtotal</td>
+                        <td>@item.cart_status</td>
                         <td>
                             <a href="@Url.Action("RemoveProduct","Customer", new { id = item.cart_id })" class="btn btn-warning btn-sm">Remove</a>
                         </td>

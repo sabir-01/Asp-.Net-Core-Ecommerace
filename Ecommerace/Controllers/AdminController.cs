@@ -202,13 +202,41 @@ namespace Ecommerace.Controllers
         [HttpPost]
         public IActionResult changeProfile(IFormFile admin_image, Admin admin)
         {
+            // 1️⃣ Fetch existing admin from DB
+            var data = _context.tbl_admin.Find(admin.admin_id);
+            if (data == null)
+                return NotFound();
 
-            string ImagePath = Path.Combine(_env.WebRootPath, "admin_image", admin_image.FileName);
-            FileStream fs = new FileStream(ImagePath, FileMode.Create);
-            admin_image.CopyTo(fs);
-            admin.admin_image = admin_image.FileName;
-            _context.tbl_admin.Update(admin);
+            // 2️⃣ If new image uploaded
+            if (admin_image != null && admin_image.Length > 0)
+            {
+                string folder = Path.Combine(_env.WebRootPath, "admin_image");
+
+                // Ensure folder exists
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                // Generate unique filename
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(admin_image.FileName);
+                string filePath = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    admin_image.CopyTo(stream);
+                }
+
+                // Set new image name to DB object
+                data.admin_image = fileName;
+            }
+
+            // 3️⃣ Update other fields if you want (optional)
+            data.admin_name = admin.admin_name;
+            data.admin_email = admin.admin_email;
+            data.admin_password = admin.admin_password;
+
+            // 4️⃣ Save changes
             _context.SaveChanges();
+
             return RedirectToAction("Profile");
         }
 
@@ -412,6 +440,7 @@ namespace Ecommerace.Controllers
             var cart = _context.tbl_Carts.Find(id);
             return View(cart);
         }
+
         [HttpPost]
         public IActionResult updateCarts( int cart_status, Carts carts)
         {

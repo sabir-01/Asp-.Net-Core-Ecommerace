@@ -131,7 +131,7 @@ namespace Ecommerace.Controllers
                 cart.prod_id = prod_id;
                 cart.cust_id = int.Parse(isLogin);
                 cart.product_quantity = 1;
-                cart.cart_status = 0;
+                cart.cart_status = 1;
 
                 _context.tbl_Carts.Add(cart);
                 _context.SaveChanges();
@@ -200,7 +200,6 @@ namespace Ecommerace.Controllers
 
             return RedirectToAction("fetchChart");
         }
-
 
         public IActionResult AboutUs()
         {
@@ -313,9 +312,7 @@ namespace Ecommerace.Controllers
             ViewBag.ShippingAddress = customer.customer_address;
 
             return View(cartItems); // pass cart items to Checkout page
-        }
-
-
+        }    
     }
 }
 
