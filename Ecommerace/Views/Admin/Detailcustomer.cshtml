@@ -1,25 +1,53 @@
 ﻿@model Customer
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">Customer Details</h2>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <img src="@("~/customer_images/"+ Model.customer_image)" asp-append-version="true"
-             width="250px" height="250px" class="my-3" />
-        <ul class="list-group">
-            <li class="list-group-item">Customer Id : @Model.customer_id</li>
-            <li class="list-group-item">Customer Name : @Model.customer_name</li>
-            <li class="list-group-item">Customer Phone : @Model.customer_phone</li>
-            <li class="list-group-item">Customer Email : @Model.customer_email</li>
-            <li class="list-group-item">Customer Password : @Model.customer_password</li>
-            <li class="list-group-item">Customer Gender : @Model.customer_gender</li>
-            <li class="list-group-item">Customer Country : @Model.customer_country</li>
-            <li class="list-group-item">Customer City : @Model.customer_city</li>
-            <li class="list-group-item">Customer Address : @Model.customer_address</li>
-        </ul>
-        <a href="@Url.Action("fetchCustomer","Admin")" class="btn btn-warning my-3"> Back to List</a>
+
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-primary text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Customer Details
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8 text-center">
+
+                    <!-- Customer Image -->
+                    <img src="@Url.Content("~/customer_images/" + Model.customer_image)"
+                         class="img-fluid shadow-sm rounded-circle my-3"
+                         style="width:250px; height:250px; object-fit:cover;" />
+
+                    <!-- Customer Details -->
+                    <ul class="list-group text-start my-3">
+                        <li class="list-group-item"><b>Customer Id:</b> @Model.customer_id</li>
+                        <li class="list-group-item"><b>Customer Name:</b> @Model.customer_name</li>
+                        <li class="list-group-item"><b>Customer Phone:</b> @Model.customer_phone</li>
+                        <li class="list-group-item"><b>Customer Email:</b> @Model.customer_email</li>
+                        <li class="list-group-item"><b>Customer Password:</b> @Model.customer_password</li>
+                        <li class="list-group-item"><b>Customer Gender:</b> @Model.customer_gender</li>
+                        <li class="list-group-item"><b>Customer Country:</b> @Model.customer_country</li>
+                        <li class="list-group-item"><b>Customer City:</b> @Model.customer_city</li>
+                        <li class="list-group-item"><b>Customer Address:</b> @Model.customer_address</li>
+                    </ul>
+
+                    <!-- Back Button -->
+                    <a href="@Url.Action("fetchCustomer","Admin")"
+                       class="btn btn-warning flex-fill rounded-pill my-3">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                    </a>
+
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
 
     </div>
-    <div class="col-md-2"></div>
+
 </div>

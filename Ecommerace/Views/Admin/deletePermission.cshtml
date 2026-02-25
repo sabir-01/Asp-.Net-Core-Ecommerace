@@ -1,26 +1,60 @@
 ﻿@model Customer
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">Are You sure you to delete this customers ?</h2>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-       @*  <img src="@("~/customer_images/"+ Model.customer_image)" asp-append-version="true"
-             width="250px" height="250px" class="my-3" /> *@
-        <ul class="list-group my-3">
-            <li class="list-group-item">Customer Id : @Model.customer_id</li>
-            <li class="list-group-item">Customer Name : @Model.customer_name</li>
-            <li class="list-group-item">Customer Phone : @Model.customer_phone</li>
-            <li class="list-group-item">Customer Email : @Model.customer_email</li>
-            <li class="list-group-item">Customer Password : @Model.customer_password</li>
-            <li class="list-group-item">Customer Gender : @Model.customer_gender</li>
-            <li class="list-group-item">Customer Country : @Model.customer_country</li>
-            <li class="list-group-item">Customer City : @Model.customer_city</li>
-            <li class="list-group-item mb-3">Customer Address : @Model.customer_address</li>
-        </ul>
-        <a href="@Url.Action("deletePermission","Admin", new{id= Model.customer_id })" class="btn btn-danger"> Delete Customer</a>
-        <a href="@Url.Action("fetchCustomer","Admin")" class="btn btn-warning"> Back to List</a>
+
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-danger text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Are You Sure You Want To Delete This Customer?
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8">
+
+                    @* Customer Image Placeholder *@
+                    @* Uncomment if images are available
+                    <img src="@Url.Content("~/customer_images/" + Model.customer_image)"
+                    class="img-fluid rounded shadow-sm my-3"
+                    style="width:200px; height:200px; object-fit:cover;" />
+                    *@
+
+                    <ul class="list-group mb-4 shadow-sm">
+                        <li class="list-group-item"><strong>Customer Id:</strong> @Model.customer_id</li>
+                        <li class="list-group-item"><strong>Name:</strong> @Model.customer_name</li>
+                        <li class="list-group-item"><strong>Phone:</strong> @Model.customer_phone</li>
+                        <li class="list-group-item"><strong>Email:</strong> @Model.customer_email</li>
+                        <li class="list-group-item"><strong>Password:</strong> @Model.customer_password</li>
+                        <li class="list-group-item"><strong>Gender:</strong> @Model.customer_gender</li>
+                        <li class="list-group-item"><strong>Country:</strong> @Model.customer_country</li>
+                        <li class="list-group-item"><strong>City:</strong> @Model.customer_city</li>
+                        <li class="list-group-item mb-3"><strong>Address:</strong> @Model.customer_address</li>
+                    </ul>
+
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="@Url.Action("deletePermission","Admin", new { id = Model.customer_id })"
+                           class="btn btn-danger btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-trash me-1"></i> Delete Customer
+                        </a>
+
+                        <a href="@Url.Action("fetchCustomer","Admin")"
+                           class="btn btn-warning btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
 
     </div>
-    <div class="col-md-2"></div>
+
 </div>

@@ -204,7 +204,8 @@
                         </div>
                     </div>
                     <div class="menu-mid col-lg-4 col-md-4 text-lg-center">
-                        <a href="index.html"><img src="~/Websites/images/logo.webp" alt=""></a>
+@*                         <a>BAZAR MELA</a>
+ *@                        <h1>BAZAR MELA</h1>
                     </div>
                     <div class="menu-right col-md-4 col-lg-4">
                         <ul class="shp-lst list-unstyled d-flex align-items-center justify-content-end">
@@ -214,7 +215,12 @@
                                 </a>
                             </li>
                             <li><a style="font-weight: 300;" href="#"><img src="~/Websites/images/resources/icon-1.png" alt=""> My wishlist</a></li>
-                            <li><a style="font-weight: 500;" href="@Url.Action("fetchChart","Customer")"><img src="~/Websites/images/resources/icon-2.png" alt="">$0.00</a></li>
+                            <li>
+                                <a style="font-weight: 500;" href="@Url.Action("fetchChart","Customer")">
+                                    <img src="~/Websites/images/resources/icon-2.png" alt="">
+                                </a>
+                                <span id="cartCount">@TempData["CartCount"]</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -276,7 +282,8 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="widget widget-about">
                             <a href="#" style="max-width: 11.0rem;display: block;">
-                                <img class="footer-logo" src="~/Websites/images/logo-2.webp" alt="">
+                               @*  <img class="footer-logo" src="" alt=""> *@
+                                <h1>BAZAR MELA</h1>
                             </a>
                             <p class="ft-info">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
                             <div class="widget-info">

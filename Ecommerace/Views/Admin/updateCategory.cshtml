@@ -1,16 +1,50 @@
 ﻿@model Catagory
 
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">Add New Category</h2>
-</div>
-<div class="row">
-    <div class="class=" col-md-2"></div>
-    <div class="col-md-8">
-        <form method="post">
-            <input type="hidden" name="category_id" value="@Model.category_id" />
-            <input type="text" name="category_name" class="form-control my-3" value="@Model.category_name" />
-            <input type="submit" value="Update category" class="form-control my-3 btn btn-primary" />
-        </form>
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-primary text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Add / Update Category
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8">
+
+                    <form method="post">
+
+                        <!-- Hidden ID -->
+                        <input type="hidden" name="category_id" value="@Model.category_id" />
+
+                        <!-- Category Name -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Category Name</label>
+                            <input type="text" name="category_name" class="form-control" value="@Model.category_name" placeholder="Enter Category Name" />
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2 flex-wrap">
+                            <input type="submit" value="Save Category" class="btn btn-primary flex-fill rounded-pill" />
+                            <a href="@Url.Action("fetchCategory","Admin")" class="btn btn-warning flex-fill rounded-pill">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
+
     </div>
-    <div class="col-md-2"></div>
+
 </div>

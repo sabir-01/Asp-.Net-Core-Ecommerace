@@ -1,22 +1,49 @@
 ﻿@model Product
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">Product Details</h2>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <img src="@("~/product_images/"+ Model.product_image)" asp-append-version="true"
-             width="250px" height="250px" class="my-3" />
-        <ul class="list-group">
-            <li class="list-group-item">Product Id : @Model.product_id</li>
-            <li class="list-group-item">Product Name : @Model.product_name</li>
-            <li class="list-group-item">Product Price : @Model.product_price</li>
-            <li class="list-group-item">Product Description : @Model.product_description</li>
-            <li class="list-group-item">Category  : @Model.catagory.category_name</li>
-           
-        </ul>
-        <a href="@Url.Action("fetchProduct","Admin")" class="btn btn-warning my-3"> Back to List</a>
+
+<div class="container-fluid px-4 mt-4">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-primary text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Product Details
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8 text-center">
+
+                    <!-- Product Image -->
+                    <img src="@Url.Content("~/product_images/" + Model.product_image)"
+                         class="img-fluid shadow-sm rounded my-3"
+                         style="width:250px; height:250px; object-fit:cover;" />
+
+                    <!-- Product Details -->
+                    <ul class="list-group text-start my-3">
+                        <li class="list-group-item"><b>Product Id:</b> @Model.product_id</li>
+                        <li class="list-group-item"><b>Product Name:</b> @Model.product_name</li>
+                        <li class="list-group-item"><b>Product Price:</b> @Model.product_price</li>
+                        <li class="list-group-item"><b>Product Description:</b> @Model.product_description</li>
+                        <li class="list-group-item"><b>Category:</b> @Model.catagory.category_name</li>
+                    </ul>
+
+                    <!-- Back Button -->
+                    <a href="@Url.Action("fetchProduct","Admin")"
+                       class="btn btn-warning flex-fill rounded-pill my-3">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                    </a>
+
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
 
     </div>
-    <div class="col-md-2"></div>
+
 </div>

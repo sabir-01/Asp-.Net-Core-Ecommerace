@@ -128,6 +128,7 @@ namespace Ecommerace.Controllers
             string isLogin = HttpContext.Session.GetString("customerSession");
             if (isLogin != null)
             {
+                 int custId = int.Parse(isLogin);
                 cart.prod_id = prod_id;
                 cart.cust_id = int.Parse(isLogin);
                 cart.product_quantity = 1;

@@ -1,56 +1,50 @@
 ﻿@model OrderDetails
 
+<div class="container-fluid px-4 mt-4">
 
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">
-        Are You Sure You Want To Delete This Order Detail?
-    </h2>
-</div>
+    <div class="card shadow-lg border-0 rounded-4">
 
-<div class="row">
-    <div class="col-md-2"></div>
+        <div class="card-header bg-danger text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Are You Sure You Want To Delete This Order Detail?
+            </h4>
+        </div>
 
-    <div class="col-md-8">
+        <div class="card-body">
 
-        <ul class="list-group my-3">
-            <li class="list-group-item">
-                <b>Order Detail ID :</b> @Model.orderDetails_id
-            </li>
+            <div class="row">
+                <div class="col-md-2"></div>
 
-            <li class="list-group-item">
-                <b>Order ID :</b> @Model.order_id
-            </li>
+                <div class="col-md-8">
 
-            <li class="list-group-item">
-                <b>Product ID :</b> @Model.product_id
-            </li>
+                    <ul class="list-group mb-4 shadow-sm">
+                        <li class="list-group-item"><strong>Order Detail ID:</strong> @Model.orderDetails_id</li>
+                        <li class="list-group-item"><strong>Order ID:</strong> @Model.order_id</li>
+                        <li class="list-group-item"><strong>Product ID:</strong> @Model.product_id</li>
+                        <li class="list-group-item"><strong>Quantity:</strong> @Model.quantity</li>
+                        <li class="list-group-item"><strong>Price:</strong> @Model.price</li>
+                        <li class="list-group-item"><strong>Sub Total:</strong> @Model.sub_total</li>
+                    </ul>
 
-            <li class="list-group-item">
-                <b>Quantity :</b> @Model.quantity
-            </li>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="@Url.Action("DeleteOrderDetailConfirmed","Admin", new { id = Model.orderDetails_id })"
+                           class="btn btn-danger btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-trash me-1"></i> Delete
+                        </a>
 
-            <li class="list-group-item">
-                <b>Price :</b> @Model.price
-            </li>
+                        <a href="@Url.Action("OrderDetails","Admin")"
+                           class="btn btn-warning btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                        </a>
+                    </div>
 
-            <li class="list-group-item">
-                <b>Sub Total :</b> @Model.sub_total
-            </li>
-        </ul>
+                </div>
 
-        <!-- Delete Button -->
-        <a href="@Url.Action("DeleteOrderDetailConfirmed","Admin",
-                new { id = Model.orderDetails_id })"
-           class="btn btn-danger">
-            Delete
-        </a>
+                <div class="col-md-2"></div>
+            </div>
 
-        <a href="@Url.Action("OrderDetails","Admin")"
-           class="btn btn-warning">
-            Back to List
-        </a>
+        </div>
 
     </div>
 
-    <div class="col-md-2"></div>
 </div>

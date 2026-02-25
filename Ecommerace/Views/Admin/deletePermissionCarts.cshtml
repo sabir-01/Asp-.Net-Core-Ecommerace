@@ -1,22 +1,59 @@
 ﻿@model Carts
-<div class="container-fluid px-4">
-    <h2 class="mt-4 text-center text-uppercase" style="letter-spacing:4px">Are You sure you to delete this Product ?</h2>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
 
-        <ul class="list-group my-3">
-            <li class="list-group-item">Cart Id : @Model.cart_id</li>
-            <li class="list-group-item">Product Name : @Model.prod_id</li>
-            <li class="list-group-item">Customer Name : @Model.cust_id</li>
-            <li class="list-group-item">Product Quantity : @Model.product_quantity</li>
-            <li class="list-group-item">Cart status: @Model.cart_status</li>
+<div class="container-fluid px-4 mt-4">
 
-        </ul>
-        <a href="@Url.Action("deleteCart","Admin", new{id= Model.cart_id})" class="btn btn-danger"> Delete Cart</a>
-        <a href="@Url.Action("fetchCart","Admin")" class="btn btn-warning"> Back to List</a>
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-danger text-white rounded-top-4 text-center">
+            <h4 class="mb-0 text-uppercase" style="letter-spacing:2px;">
+                Are You Sure You Want To Delete This Product?
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8">
+
+                    <ul class="list-group mb-4 shadow-sm">
+                        <li class="list-group-item"><strong>Cart Id:</strong> @Model.cart_id</li>
+                        <li class="list-group-item"><strong>Product Name (ID):</strong> @Model.prod_id</li>
+                        <li class="list-group-item"><strong>Customer Name (ID):</strong> @Model.cust_id</li>
+                        <li class="list-group-item"><strong>Product Quantity:</strong> @Model.product_quantity</li>
+                        <li class="list-group-item">
+                            <strong>Cart Status:</strong>
+                            @if (Model.cart_status == 1)
+                            {
+                                <span class="badge bg-success">Order</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="@Url.Action("deleteCart","Admin", new { id = Model.cart_id })"
+                           class="btn btn-danger btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-trash me-1"></i> Delete Cart
+                        </a>
+
+                        <a href="@Url.Action("fetchCart","Admin")"
+                           class="btn btn-warning btn-lg rounded-pill px-4">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Back to List
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
 
     </div>
-    <div class="col-md-2"></div>
+
 </div>

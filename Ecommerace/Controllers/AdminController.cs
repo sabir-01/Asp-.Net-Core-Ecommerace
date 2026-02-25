@@ -96,66 +96,7 @@ namespace Ecommerace.Controllers
             ViewBag.CustomerNames = data.Select(d => d.Name).ToList();
             ViewBag.OrderCounts = data.Select(d => d.OrderCount).ToList();
         }
-        //public IActionResult Index()
-        //{
-        //    string admin_session = HttpContext.Session.GetString("admin_session");
-        //    if (admin_session != null)
-        //    {
-        //        ViewBag.TotalCustomers = _context.Customers.Count();
-        //        ViewBag.TotalOrderDetails = _context.OrderDetails.Count();
-        //        ViewBag.TotalOrders = _context.Orders.Count();
-        //        ViewBag.TotalCart = _context.tbl_Carts.Count();
-        //        ViewBag.TotalCategories = _context.tbl_Catagory.Count();
-        //        ViewBag.TotalFaqs = _context.tbl_Faqs.Count();
-        //        ViewBag.TotalFeedback = _context.tbl_Feedback.Count();
-        //        ViewBag.TotalProducts = _context.tbl_Product.Count();
-
-        //        // Revenue (from OrderDetails)
-        //        ViewBag.TotalRevenue = _context.OrderDetails
-        //                               .Sum(x => (decimal?)x.sub_total) ?? 0;
-
-        //        // Monthly Orders Chart
-        //        ViewBag.MonthlyOrders = _context.Orders
-        //            .GroupBy(o => o.order_date.Month)
-        //            .Select(g => g.Count())
-        //            .ToList();
-
-
-        //        // Create 12-month array
-        //        var monthlyData = new int[12];
-
-        //        var orders = _context.Orders.ToList();
-
-        //        foreach (var o in orders)
-        //        {
-        //            int month = o.order_date.Month;
-        //            monthlyData[month - 1]++;
-        //        }
-
-        //        ViewBag.MonthlyOrders = monthlyData;
-
-        //        // Category names
-        //        var categories = _context.tbl_Catagory
-        //                         .Select(c => c.category_name)
-        //                         .ToList();
-
-        //        // Count of products per category
-        //        var categoryCounts = _context.tbl_Product
-        //                             .GroupBy(p => p.cat_id)
-        //                             .Select(g => g.Count())
-        //                             .ToList();
-
-        //        ViewBag.CategoryNames = categories;       // Labels
-        //        ViewBag.CategoryCounts = categoryCounts;  // Data
-
-        //        return View();
-
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login");
-        //    }
-        //}
+   
 
         public IActionResult Login()
         {
