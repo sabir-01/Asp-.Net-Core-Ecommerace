@@ -20,8 +20,7 @@
                 <div class="col-md-8">
 
                     <!-- Product Details Update Form -->
-                    <form method="post">
-
+                    <form method="post" asp-action="updateproduct">
                         <input type="hidden" name="product_id" value="@Model.product_id" />
                         <input type="hidden" name="product_image" value="@Model.product_image" />
 
@@ -57,25 +56,23 @@
                     <hr class="my-4" />
 
                     <!-- Product Image Update Form -->
-                    <form method="post" enctype="multipart/form-data">
-
+                    <form method="post" enctype="multipart/form-data" asp-action="changeProductImage">
                         <input type="hidden" name="product_id" value="@Model.product_id" />
                         <input type="hidden" name="product_name" value="@Model.product_name" />
                         <input type="hidden" name="product_price" value="@Model.product_price" />
                         <input type="hidden" name="product_description" value="@Model.product_description" />
                         <input type="hidden" name="cat_id" value="@Model.cat_id" />
-
+                        
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Change Product Image</label>
                             <input type="file" name="product_image" class="form-control" />
                         </div>
 
                         <div class="mb-3 text-center">
-                            <img src="@Url.Content("~/product_images/" + Model.product_image)"
+                            <img src="@Url.Content("~/product_images/" + Model.product_image)" asp-append-version="true"
                                  class="img-fluid shadow-sm rounded my-3"
                                  style="width:250px; height:250px; object-fit:cover;" />
                         </div>
-
                         <input type="submit" value="Change Product Image" class="btn btn-primary form-control rounded-pill" />
 
                     </form>

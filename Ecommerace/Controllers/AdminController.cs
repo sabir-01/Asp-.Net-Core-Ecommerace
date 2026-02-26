@@ -315,13 +315,25 @@ namespace Ecommerace.Controllers
             List<Catagory> catagories = _context.tbl_Catagory.ToList();
             ViewData["category"] = catagories;
             var product = _context.tbl_Product.Find(id);
-            ViewBag.selectedCategoryId = product.cat_id; 
+            ViewBag.selectedCategoryId = product.cat_id;
             return View(product);
         }
 
         [HttpPost]
         public IActionResult updateproduct(Product prod)
         {
+            // Pehle existing product se current image fetch karo
+            var existingProduct = _context.tbl_Product.AsNoTracking().FirstOrDefault(p => p.product_id == prod.product_id);
+
+            if (existingProduct != null)
+            {
+                // Agar form se image null aayi, toh purani image rakho
+                if (string.IsNullOrEmpty(prod.product_image))
+                {
+                    prod.product_image = existingProduct.product_image;
+                }
+            }
+
             _context.tbl_Product.Update(prod);
             _context.SaveChanges();
             return RedirectToAction("fetchproduct");
@@ -330,12 +342,23 @@ namespace Ecommerace.Controllers
         [HttpPost]
         public IActionResult changeProductImage(IFormFile product_image, Product product)
         {
-            string ImagePath = Path.Combine(_env.WebRootPath, "product_images", product_image.FileName);
-            FileStream fs = new FileStream(ImagePath, FileMode.Create);
-            product_image.CopyTo(fs);
-            product.product_image = product_image.FileName;
-            _context.tbl_Product.Update(product);
-            _context.SaveChanges();
+            // Pehle existing product ki saari details fetch karo
+            var existingProduct = _context.tbl_Product.AsNoTracking().FirstOrDefault(p => p.product_id == product.product_id);
+
+            if (existingProduct != null && product_image != null && product_image.Length > 0)
+            {
+                string ImagePath = Path.Combine(_env.WebRootPath, "product_images", product_image.FileName);
+                using (FileStream fs = new FileStream(ImagePath, FileMode.Create))
+                {
+                    product_image.CopyTo(fs);
+                }
+
+                // Sirf image update karo, baaki purani details rakho
+                existingProduct.product_image = product_image.FileName;
+                _context.tbl_Product.Update(existingProduct);
+                _context.SaveChanges();
+            }
+
             return RedirectToAction("fetchproduct");
         }
 

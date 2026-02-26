@@ -7,9 +7,7 @@
 <div class="container mt-5 text-center">
     <h2 class="text-success">✅ Your Order Has Been Placed Successfully!</h2>
     <p>Thank you for shopping with us.</p>
-    <p>@Model.order.customer.customer_name</p>
-    <p>@Model.quantity</p>
-    <p>@Model.sub_total</p>
-
+  <button class="btn">
     <a class="btn btn-primary mt-3" href="@Url.Action("Index", "Customer")">Continue Shopping</a>
+  </button>
 </div>
