@@ -79,13 +79,11 @@
                 <!-- Checkout Button -->
                 <div class="text-end mt-3">
                     <form method="post" action="@Url.Action("Checkoutinformation","Customer")">
-                        <input type="hidden" name="customerId" value="@Model[0].cust_id" />
                         <button type="submit" class="btn btn-warning rounded-pill px-4">
                             <i class="fa-solid fa-credit-card me-1"></i> Checkout
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     }

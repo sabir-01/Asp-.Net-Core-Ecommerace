@@ -1,59 +1,551 @@
 ﻿
 @{
+    ViewData["Title"] = "CheckoutInformation";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Checkoutinformation";
+
 }
-@model List<Carts> 
 
-<h1>Checkoutinformation</h1>
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Checkout Information</h2>
+@model CheckoutViewModel
 
-    <table class="table table-bordered text-center">
-        <thead class="table-dark">
-            <tr>
-                <th>Product</th>
-                <th>Image</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                decimal grandTotal = 0;
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    .checkout-container {
+        max-width: 1400px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .checkout-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .checkout-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .checkout-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+    .checkout-steps {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+        gap: 30px;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .step.active .step-number {
+        background: #ffc107;
+        color: #fff;
+    }
+
+    .step-text {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .step-line {
+        width: 100px;
+        height: 2px;
+        background: #e9ecef;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 30px;
+    }
+
+    .checkout-form-section {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .section-header {
+        padding: 20px 30px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .section-header i {
+            font-size: 24px;
+            color: #ffc107;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+    .section-content {
+        padding: 30px;
+    }
+
+    .address-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .address-card:hover {
+            border-color: #ffc107;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,193,7,0.2);
+        }
+
+        .address-card.selected {
+            border-color: #ffc107;
+            background: #fff9e6;
+        }
+
+    .address-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .address-name {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .address-badge {
+        background: #e9ecef;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .address-details {
+        color: #6c757d;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .payment-methods {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .payment-method {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .payment-method:hover {
+            border-color: #ffc107;
+            transform: translateY(-2px);
+        }
+
+        .payment-method.selected {
+            border-color: #ffc107;
+            background: #fff9e6;
+        }
+
+        .payment-method i {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .payment-method.cod i {
+            color: #28a745;
+        }
+
+        .payment-method.card i {
+            color: #007bff;
+        }
+
+        .payment-method.bank i {
+            color: #6f42c1;
+        }
+
+        .payment-method h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .payment-method p {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+    .order-summary {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 30px;
+        position: sticky;
+        top: 20px;
+    }
+
+    .summary-header {
+        margin-bottom: 25px;
+    }
+
+        .summary-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+    .cart-items {
+        margin-bottom: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .item-image {
+        width: 60px;
+        height: 60px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .item-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .item-price {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .item-quantity {
+        background: #f8f9fa;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .item-total {
+        font-weight: 600;
+        color: #ffc107;
+    }
+
+    .price-breakdown {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #6c757d;
+    }
+
+        .price-row.total {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px dashed #dee2e6;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+
+    .place-order-btn {
+        width: 100%;
+        padding: 15px;
+        background: #ffc107;
+        border: none;
+        border-radius: 15px;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+        .place-order-btn:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,193,7,0.3);
+        }
+
+    .order-notes {
+        margin-top: 20px;
+    }
+
+        .order-notes textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            resize: vertical;
+            min-height: 100px;
+            font-size: 0.95rem;
+        }
+
+            .order-notes textarea:focus {
+                outline: none;
+                border-color: #ffc107;
             }
+</style>
 
-            @foreach (var item in Model)
-            {
-                decimal price = Convert.ToDecimal(item.products.product_price);
-                decimal subtotal = price * item.product_quantity;
-                grandTotal += subtotal;
-
-                <tr>
-                    <td>@item.products.product_name</td>
-                    <td><img src="~/product_images/@item.products.product_image" style="height:60px;" /></td>
-                    <td>@item.product_quantity</td>
-                    <td>Rs. @price</td>
-                    <td>Rs. @subtotal</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" class="text-end fw-bold">Grand Total:</td>
-                <td class="fw-bold">Rs. @grandTotal</td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <div class="mt-4">
-        <h5>Shipping Address:</h5>
-        <p>@ViewBag.ShippingAddress</p>
+<div class="checkout-container">
+    <div class="checkout-header">
+        <h2>Checkout</h2>
+        <p>Complete your purchase with just a few steps</p>
     </div>
 
-    <form method="post" asp-action="Checkout">
-        <input type="hidden" name="customerId" value="@Model.First().cust_id" />
-        <button type="submit" class="btn btn-success btn-lg mt-3">Place Order &rarr;</button>
+    <div class="checkout-steps">
+        <div class="step active">
+            <div class="step-number">1</div>
+            <span class="step-text">Cart Review</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <span class="step-text">Checkout</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <span class="step-text">Confirmation</span>
+        </div>
+    </div>
+
+    <form method="post" action="@Url.Action("PlaceOrder", "Customer")" id="checkoutForm">
+        <div class="row">
+            <!-- Left Column - Forms -->
+            <div class="checkout-form-section">
+                <!-- Shipping Address Section -->
+                <div class="section-header">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Shipping Address</h3>
+                </div>
+                <div class="section-content">
+                    <div class="address-card selected" onclick="selectAddress(this)">
+                        <div class="address-header">
+                            <span class="address-name">@Model.Customer.customer_name</span>
+                            <span class="address-badge">Home</span>
+                        </div>
+                        <div class="address-details">
+                            @if (!string.IsNullOrEmpty(Model.Customer.customer_address))
+                            {
+                                <p>@Model.Customer.customer_address</p>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No address saved. Please enter shipping address below.</p>
+                            }
+                            <p><i class="fas fa-phone me-2"></i>@Model.Customer.customer_phone</p>
+                            <p><i class="fas fa-envelope me-2"></i>@Model.Customer.customer_email</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="ShippingAddress" class="form-label fw-bold mb-2">Or Enter New Address</label>
+                        <textarea class="form-control" id="ShippingAddress" name="ShippingAddress" rows="3" placeholder="Enter your complete shipping address...">@Model.Customer.customer_address</textarea>
+                    </div>
+                </div>
+
+                <!-- Payment Method Section -->
+                <div class="section-header">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Payment Method</h3>
+                </div>
+                <div class="section-content">
+                    <div class="payment-methods">
+                        <div class="payment-method selected" onclick="selectPayment(this, 'cod')">
+                            <i class="fas fa-money-bill-wave cod"></i>
+                            <h4>Cash on Delivery</h4>
+                            <p>Pay when you receive</p>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'card')">
+                            <i class="fas fa-credit-card card"></i>
+                            <h4>Credit Card</h4>
+                            <p>Pay online securely</p>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'bank')">
+                            <i class="fas fa-university bank"></i>
+                            <h4>Bank Transfer</h4>
+                            <p>Direct bank payment</p>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="PaymentMethod" name="PaymentMethod" value="cod">
+
+                    <!-- Order Notes -->
+                    <div class="order-notes">
+                        <label for="Notes" class="form-label fw-bold mb-2">Order Notes (Optional)</label>
+                        <textarea id="Notes" name="Notes" placeholder="Add any special instructions for your order..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Order Summary -->
+            <div class="order-summary">
+                <div class="summary-header">
+                    <h3>Order Summary</h3>
+                </div>
+
+                <div class="cart-items">
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <div class="cart-item">
+                            <div class="item-image">
+                                @if (!string.IsNullOrEmpty(item.products.product_image))
+                                {
+                                    <img src="@item.products.product_image" alt="@item.products.product_name">
+                                }
+                                else
+                                {
+                                    <img src="/images/no-image.jpg" alt="No image">
+                                }
+                            </div>
+                            <div class="item-details">
+                                <div class="item-name">@item.products.product_name</div>
+                                <div class="item-price">
+                                    PKR @(decimal.TryParse(item.products.product_price, out var price) ? price.ToString("N0") : "0")
+                                </div>
+                            </div>
+                            <div class="item-quantity">
+                                Qty: @item.product_quantity
+                            </div>
+                            <div class="item-total">
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal:</span>
+                        <span>PKR @Model.TotalAmount.ToString("N0")</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Shipping:</span>
+                        <span>PKR 200</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Tax (5%):</span>
+                        <span>PKR @((Model.TotalAmount * 0.05m).ToString("N0"))</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Amount:</span>
+                        <span>PKR @((Model.TotalAmount + 200 + (Model.TotalAmount * 0.05m)).ToString("N0"))</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="place-order-btn">
+                    <i class="fas fa-lock"></i>
+                    Place Order
+                </button>
+
+                <p class="text-center text-muted mt-3" style="font-size: 0.9rem;">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Your payment information is secure
+                </p>
+            </div>
+        </div>
     </form>
 </div>
+
+<script>
+    function selectAddress(element) {
+        // Remove selected class from all address cards
+        document.querySelectorAll('.address-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        // Add selected class to clicked card
+        element.classList.add('selected');
+    }
+
+    function selectPayment(element, method) {
+        // Remove selected class from all payment methods
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.classList.remove('selected');
+        });
+        // Add selected class to clicked method
+        element.classList.add('selected');
+        // Update hidden input value
+        document.getElementById('PaymentMethod').value = method;
+    }
+
+    // Form validation
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        const address = document.getElementById('ShippingAddress').value.trim();
+        if (!address) {
+            e.preventDefault();
+            alert('Please enter shipping address');
+        }
+    });
+</script>
+

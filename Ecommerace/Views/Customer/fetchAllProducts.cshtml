@@ -9,7 +9,9 @@
     <h2 class="text-center fw-bold">All Products</h2>
     @if (TempData["message"] != null)
     {
-        <h4 class="text-success text-center mt-3">@TempData["message"]</h4>
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-center">
+            @TempData["message"]
+        </div>
     }
     <div class="row g-4 mt-2">
         @Html.Partial("fetchProducts", ViewData["product"])
@@ -17,3 +19,15 @@
 
   
 </div>
+<script>
+    setTimeout(function () {
+        var alertBox = document.getElementById("successAlert");
+        if (alertBox) {
+            alertBox.style.transition = "opacity 0.5s ease";
+            alertBox.style.opacity = "0";
+            setTimeout(function () {
+                alertBox.remove();
+            }, 500);
+        }
+    }, 1000); // 3 seconds
+</script>

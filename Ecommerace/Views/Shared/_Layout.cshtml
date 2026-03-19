@@ -135,9 +135,8 @@
     color: #0d6efd;
 }
 
-/* Responsive Fix */
 
-}
+
     </style>
 
 </head>
@@ -187,7 +186,7 @@
         <!-- End Top Bar -->
         <!-- Main Header: Logo + Search + Wishlist + Cart -->
         <div class="w-100 bg-white main-pd">
-            <div class="container">
+            <div class="container flex-fill d-flex flex-column">
                 <div class="main-header row w-100 d-flex align-items-center justify-content-between">
                     <div class="menu-left col-lg-4 col-md-4 d-flex flex-nowrap align-items-center">
                         <div class="field-box position-relative">
@@ -235,14 +234,10 @@
                 <li><a href="@Url.Action("fetchAllProducts","Customer")">PRODUCT</a></li>
                 <li>
                     <a href="#">CATEGORY</a>
-                    <ul class="submenu">                        
-                        @Html.Partial("fetchCategoryList",ViewData["category"])                     
-                    </ul>
+                    <ul class="submenu">@Html.Partial("fetchCategoryList",ViewData["category"])</ul>
                 </li>
                 <li><a href="@Url.Action("feedback","customer")">CONTACT US</a></li>
-                @* <li>                  
-                        Order Status                
-                </li> *@
+               
             </ul>
         </nav>
 
@@ -257,8 +252,8 @@
     <!-- ============================================================ -->
     <!-- RAZOR BODY RENDER (ASP.NET Layout Placeholder)               -->
     <!-- ============================================================ -->
-    <div id="container">
-        <main role="main" class="pb-3 flex-fill">
+    <div id="container" class="flex-fill">
+        <main role="main" class="pb-3">
             <div>
                 @RenderBody()
             </div>
@@ -274,7 +269,7 @@
     <!-- ============================================================ -->
     
     <footer>
-        <div class="w-100 ft-main mt-auto bg-dark text-white pt-5 pb-3">
+        <div class="bg-dark text-white text-center py-3 mt-auto">
             <div class="container">
                 <div class="row">
 

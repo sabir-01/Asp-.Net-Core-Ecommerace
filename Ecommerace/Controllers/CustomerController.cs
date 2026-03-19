@@ -201,119 +201,150 @@ namespace Ecommerace.Controllers
 
             return RedirectToAction("fetchChart");
         }
-
+       
         public IActionResult AboutUs()
         {
             List<Catagory> category = _context.tbl_Catagory.ToList();
             ViewData["category"] = category;
             return View();
         }
-        public IActionResult OrderSuccess()
-        {
-            List<Catagory> category = _context.tbl_Catagory.ToList();
-            ViewData["category"] = category;
-            return View();
-        }
 
+        // GET - Checkout page dikhao with cart data
+        [HttpPost]
+        [HttpPost]
         public IActionResult Checkoutinformation()
         {
-         
-            return View();
-        }   
-        // Step 2: Confirm order (POST)
-        [HttpPost]
-        public IActionResult Checkoutinformation(int customerId)
-        {
+
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            string customerId = HttpContext.Session.GetString("customerSession");
+            if (customerId == null)
+            {
+                return RedirectToAction("customerLogin");
+            }
+
+            int custId = int.Parse(customerId);
+
+            // Get customer details
+            var customer = _context.Customers.FirstOrDefault(c => c.customer_id == custId);
+
+            // Get cart items
             var cartItems = _context.tbl_Carts
-                .Where(c => c.cust_id == customerId && c.cart_status == 1)
+                .Where(c => c.cust_id == custId)
                 .Include(c => c.products)
-                .Include(c => c.customers)
                 .ToList();
 
-            if (!cartItems.Any())
+            if (cartItems.Count == 0)
+            {
+                TempData["error"] = "Your cart is empty!";
                 return RedirectToAction("fetchChart");
+            }
 
-            // Create order
+            // Calculate total amount safely
+            var totalAmount = cartItems.Sum(c =>
+            {
+                decimal price = 0m;
+                decimal.TryParse(c.products.product_price, out price);
+                return price * c.product_quantity;
+            });
+
+            // Create ViewModel to pass data to view
+            var viewModel = new CheckoutViewModel
+            {
+                Customer = customer,
+                CartItems = cartItems,
+                TotalAmount = totalAmount,
+                OrderDate = DateTime.Now
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult PlaceOrder(CheckoutViewModel model)
+        {
+
+            List<Catagory> category = _context.tbl_Catagory.ToList();
+            ViewData["category"] = category;
+            string customerId = HttpContext.Session.GetString("customerSession");
+            if (customerId == null)
+            {
+                return RedirectToAction("customerLogin");
+            }
+
+            int custId = int.Parse(customerId);
+
+            // Get cart items
+            var cartItems = _context.tbl_Carts
+                .Where(c => c.cust_id == custId)
+                .Include(c => c.products)
+                .ToList();
+
+            if (cartItems.Count == 0)
+            {
+                TempData["error"] = "Your cart is empty!";
+                return RedirectToAction("fetchChart");
+            }
+
+            // Calculate total amount
+            decimal totalAmount = cartItems.Sum(c =>
+            {
+                decimal price = 0;
+                decimal.TryParse(c.products.product_price, out price); // safe conversion
+                return price * c.product_quantity;
+            });
+            // Create Order
             Order order = new Order
             {
-                customer_id = customerId,
-                shipping_address = cartItems.First().customers.customer_address,
-                order_status = "Confirmed",
+                customer_id = custId,
                 order_date = DateTime.Now,
-                total_amount = 0
+                order_status = "Pending",
+                shipping_address = model.ShippingAddress,
+                total_amount = totalAmount
             };
+
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            decimal total = 0;
-
+            // Create Order Details for each cart item
             foreach (var item in cartItems)
             {
-                decimal price = Convert.ToDecimal(item.products.product_price);
-
-                OrderDetails details = new OrderDetails
+                OrderDetails orderDetail = new OrderDetails
                 {
                     order_id = order.order_id,
                     product_id = item.prod_id,
                     quantity = item.product_quantity,
-                    price = price,
-                    sub_total = price * item.product_quantity
-                };
+                    price = decimal.Parse(item.products.product_price),
+                    sub_total = decimal.Parse(item.products.product_price) * item.product_quantity
+            };
 
-                total += details.sub_total;
-                _context.OrderDetails.Add(details);
+                _context.OrderDetails.Add(orderDetail);
             }
 
-            order.total_amount = total;
-
+            // Clear the cart
             _context.tbl_Carts.RemoveRange(cartItems);
+
             _context.SaveChanges();
 
-            TempData["message"] = "Order Placed Successfully!";
-            return RedirectToAction("OrderSuccess");
+            TempData["success"] = "Order placed successfully! Order ID: " + order.order_id;
+            return RedirectToAction("OrderConfirmation", new { id = order.order_id });
         }
 
-        // Step : Checkout page
-        public IActionResult Checkout()
+        public IActionResult OrderConfirmation(int id)
         {
-            string customerIdStr = HttpContext.Session.GetString("customerSession");
-            if (string.IsNullOrEmpty(customerIdStr))
+            var order = _context.Orders
+                .Include(o => o.customer)
+                .Include(o => o.orderDetails)
+                    .ThenInclude(od => od.product)
+                .FirstOrDefault(o => o.order_id == id);
+
+            if (order == null)
             {
-                // Not logged in
-                TempData["message"] = "Please login first to checkout!";
-                return RedirectToAction("CustomerLogin");
-            }
-
-            int customerId = int.Parse(customerIdStr);
-
-            // Get all cart items
-            var cartItems = _context.tbl_Carts
-                .Where(c => c.cust_id == customerId && c.cart_status == 1)
-                .Include(c => c.products)
-                .ToList();
-
-            if (!cartItems.Any())
-            {
-                TempData["message"] = "Your cart is empty!";
                 return RedirectToAction("fetchChart");
             }
 
-            // Calculate totals
-            decimal grandTotal = 0;
-            foreach (var item in cartItems)
-            {
-                decimal price = Convert.ToDecimal(item.products.product_price);
-                grandTotal += price * item.product_quantity;
-            }
-
-            ViewBag.GrandTotal = grandTotal;
-
-            // Shipping info
-            var customer = _context.Customers.FirstOrDefault(c => c.customer_id == customerId);
-            ViewBag.ShippingAddress = customer.customer_address;
-
-            return View(cartItems); // pass cart items to Checkout page
-        }    
+            return View(order);
+        }
     }
 }
 
